@@ -1,7 +1,8 @@
 rootProject.name = "Hanki"
 rootProject.buildFileName = "build.gradle.kts"
-include(":app",
+include(
+    ":app",
     ":data",
-    ":domain"
+    ":domain",
+    ":data-local"
 )
-include(":data-local")

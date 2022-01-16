@@ -1,4 +1,4 @@
-package com.lexwilliam.hanki
+package com.lexwilliam.hanki.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
