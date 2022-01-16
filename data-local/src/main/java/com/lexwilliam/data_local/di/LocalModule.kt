@@ -7,10 +7,10 @@ import com.lexwilliam.data_local.FlashcardDatabase
 import com.lexwilliam.data_local.dao.FlashcardDao
 import com.lexwilliam.data_local.dao.StudySetDao
 import com.lexwilliam.data_local.data.FlashcardLocalSourceImpl
-import com.lexwilliam.data_local.mapper.FlashcardMapper
-import com.lexwilliam.data_local.mapper.FlashcardMapperImpl
-import com.lexwilliam.data_local.mapper.StudySetMapper
-import com.lexwilliam.data_local.mapper.StudySetMapperImpl
+import com.lexwilliam.data_local.mapper.LocalFlashcardMapper
+import com.lexwilliam.data_local.mapper.LocalFlashcardMapperImpl
+import com.lexwilliam.data_local.mapper.LocalStudySetMapper
+import com.lexwilliam.data_local.mapper.LocalStudySetMapperImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,19 +27,19 @@ object LocalModule {
     fun provideFlashcardLocalSource(
         studySetDao: StudySetDao,
         flashcardDao: FlashcardDao,
-        studySetMapper: StudySetMapper,
-        flashcardMapper: FlashcardMapper
+        localStudySetMapper: LocalStudySetMapper,
+        localFlashcardMapper: LocalFlashcardMapper
     ): FlashcardLocalSource =
-        FlashcardLocalSourceImpl(studySetDao, flashcardDao, studySetMapper, flashcardMapper)
+        FlashcardLocalSourceImpl(studySetDao, flashcardDao, localStudySetMapper, localFlashcardMapper)
 
     @Singleton
     @Provides
-    fun provideStudySetMapper(flashcardMapper: FlashcardMapper): StudySetMapper =
-        StudySetMapperImpl(flashcardMapper)
+    fun provideStudySetMapper(localFlashcardMapper: LocalFlashcardMapper): LocalStudySetMapper =
+        LocalStudySetMapperImpl(localFlashcardMapper)
 
     @Singleton
     @Provides
-    fun provideFlashcardMapper(): FlashcardMapper = FlashcardMapperImpl()
+    fun provideFlashcardMapper(): LocalFlashcardMapper = LocalFlashcardMapperImpl()
 
     @Singleton
     @Provides

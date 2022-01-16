@@ -45,6 +45,10 @@ android {
 }
 
 dependencies {
+    implementation(project(ProjectModules.cache))
+    implementation(project(ProjectModules.domain))
+    implementation(project(ProjectModules.data))
+
     implementation(Dependencies.AndroidX.Compose.viewModel)
     implementation(Dependencies.material)
     annotationProcessor(Dependencies.AndroidX.lifecycleCompiler)

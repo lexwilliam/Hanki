@@ -1,13 +1,10 @@
 package com.lexwilliam.data_local.mapper
 
 import com.lexwilliam.data.model.FlashcardRepositoryModel
-import com.lexwilliam.data_local.model.StudySetWithFlashcard
-import com.lexwilliam.data.model.StudySetRepositoryModel
 import com.lexwilliam.data_local.model.FlashcardEntity
-import com.lexwilliam.data_local.model.StudySetEntity
 import javax.inject.Inject
 
-interface FlashcardMapper {
+interface LocalFlashcardMapper {
     fun toRepo(flashcard: FlashcardEntity): FlashcardRepositoryModel
     fun toRepo(flashcardList: List<FlashcardEntity>): List<FlashcardRepositoryModel>
     fun toEntity(flashcard: FlashcardRepositoryModel): FlashcardEntity
@@ -15,8 +12,8 @@ interface FlashcardMapper {
 }
 
 
-class FlashcardMapperImpl @Inject constructor():
-    FlashcardMapper {
+class LocalFlashcardMapperImpl @Inject constructor():
+    LocalFlashcardMapper {
 
     override fun toRepo(flashcard: FlashcardEntity): FlashcardRepositoryModel =
          FlashcardRepositoryModel(

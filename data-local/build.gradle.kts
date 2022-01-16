@@ -9,8 +9,8 @@ plugins {
 dependencies {
     implementation(project(ProjectModules.data))
 
-    api(Dependencies.Room.room)
-    api(Dependencies.Room.roomCompiler)
+    implementation(Dependencies.Room.room)
+    annotationProcessor(Dependencies.Room.roomCompiler)
 
     implementation(Dependencies.Hilt.hiltAndroid)
     implementation(Dependencies.Hilt.hiltAndroidCompiler)
