@@ -16,9 +16,12 @@ class PresentationModule {
 
     @Singleton
     @Provides
-    fun provideStudySetMapper(flashcardMapperPresentation: FlashcardMapperPresentation): StudySetMapperPresentation = StudySetMapperPresentationImpl(flashcardMapperPresentation)
+    fun provideStudySetMapper(flashcardMapperPresentation: FlashcardMapperPresentation): StudySetMapperPresentation
+        = StudySetMapperPresentationImpl(flashcardMapperPresentation)
 
     @Singleton
     @Provides
-    fun provideFlashcardMapper(): FlashcardMapperPresentation = FlashcardMapperPresentationImpl()
+    fun provideFlashcardMapper(): FlashcardMapperPresentation
+        = FlashcardMapperPresentationImpl()
+
 }
