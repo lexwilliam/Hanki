@@ -10,7 +10,8 @@ dependencies {
     implementation(project(ProjectModules.data))
 
     implementation(Dependencies.Room.room)
-    annotationProcessor(Dependencies.Room.roomCompiler)
+    kapt(Dependencies.Room.roomCompiler)
+    implementation(Dependencies.Room.roomKtx)
 
     implementation(Dependencies.Hilt.hiltAndroid)
     implementation(Dependencies.Hilt.hiltAndroidCompiler)

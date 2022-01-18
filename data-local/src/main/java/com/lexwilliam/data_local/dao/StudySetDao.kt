@@ -8,9 +8,11 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface StudySetDao {
 
+    @Transaction
     @Query("SELECT * FROM studySet ORDER BY id")
     fun getAllStudySetWithFlashcard(): Flow<List<StudySetWithFlashcard>>
 
+    @Transaction
     @Query("SELECT * FROM studySet WHERE id IS :id")
     suspend fun getStudySetWithFlashcardById(id: Long): StudySetWithFlashcard?
 
