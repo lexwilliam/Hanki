@@ -50,6 +50,13 @@ fun MainScreen() {
 }
 
 @Composable
+fun HankiTopAppBar() {
+    TopAppBar() {
+
+    }
+}
+
+@Composable
 fun HankiBottomNavigation(
     modifier: Modifier,
     navController: NavHostController,

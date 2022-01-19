@@ -51,9 +51,10 @@ dependencies {
 
     implementation(Dependencies.AndroidX.Compose.viewModel)
     implementation(Dependencies.material)
-    annotationProcessor(Dependencies.AndroidX.lifecycleCompiler)
+    kapt(Dependencies.AndroidX.lifecycleCompiler)
     implementation(Dependencies.AndroidX.archComponents)
     implementation(Dependencies.AndroidX.browser)
+    implementation(Dependencies.kotlinReflect)
 
     implementation(Dependencies.AndroidX.Compose.ui)
     implementation(Dependencies.AndroidX.Compose.systemUiController)

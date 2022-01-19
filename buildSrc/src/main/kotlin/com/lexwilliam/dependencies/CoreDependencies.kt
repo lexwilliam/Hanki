@@ -35,7 +35,7 @@ object Dependencies {
             const val runtimeLiveData =
                 "androidx.compose.runtime:runtime-livedata:${Versions.compose}"
             const val material = "androidx.compose.material:material:${Versions.compose}"
-            const val uiTooling = "androidx.compose.ui:ui-tooling-preview:${Versions.compose}"
+            const val uiTooling = "androidx.compose.ui:ui-tooling:${Versions.compose}"
             const val navigation =
                 "androidx.navigation:navigation-compose:${Versions.composeNavigation}"
             const val viewModel =
@@ -45,6 +45,9 @@ object Dependencies {
 
     const val kotlinxCoroutines =
         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinxCoroutines}"
+
+    const val kotlinReflect =
+        "org.jetbrains.kotlin:kotlin-reflect:1.5.31"
 
     object Dagger {
         const val dagger =

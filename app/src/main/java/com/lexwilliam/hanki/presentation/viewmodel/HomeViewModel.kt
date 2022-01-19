@@ -2,7 +2,6 @@ package com.lexwilliam.hanki.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.lexwilliam.domain.usecase.GetAllStudySets
-import com.lexwilliam.hanki.model.StudySetPresentation
 import com.lexwilliam.hanki.presentation.screens.home.HomeContract
 import com.lexwilliam.hanki.presentation.viewmodel.base.BaseViewModel
 import com.lexwilliam.hanki.presentation.viewmodel.mapper.StudySetMapperPresentation
@@ -36,7 +35,7 @@ class HomeViewModel @Inject constructor(
 
     override fun setInitialState(): HomeContract.State {
         return HomeContract.State(
-            studySetPresentation = emptyList(),
+            studySets = emptyList(),
             isLoading = true,
             isError = false
         )
@@ -56,7 +55,7 @@ class HomeViewModel @Inject constructor(
                             .let { studySetPresentation ->
                                 setState {
                                     copy(
-                                        studySetPresentation = studySetPresentation,
+                                        studySets = studySetPresentation,
                                         isLoading = false
                                     )
                                 }

@@ -9,9 +9,9 @@ plugins {
 dependencies {
     implementation(project(ProjectModules.data))
 
-    implementation(Dependencies.Room.room)
+    api(Dependencies.Room.room)
     kapt(Dependencies.Room.roomCompiler)
-    implementation(Dependencies.Room.roomKtx)
+    api(Dependencies.Room.roomKtx)
 
     implementation(Dependencies.Hilt.hiltAndroid)
     implementation(Dependencies.Hilt.hiltAndroidCompiler)

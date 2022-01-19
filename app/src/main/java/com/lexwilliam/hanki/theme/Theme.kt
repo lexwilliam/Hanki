@@ -37,7 +37,7 @@ fun HankiTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable(
 
     MaterialTheme(
         colors = colors,
-        typography = Typography,
+        typography = NotoSansTypography,
         shapes = Shapes,
         content = content
     )

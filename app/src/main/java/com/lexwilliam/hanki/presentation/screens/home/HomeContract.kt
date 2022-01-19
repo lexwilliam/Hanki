@@ -9,7 +9,7 @@ class HomeContract {
     sealed class Event: ViewEvent
 
     data class State(
-        val studySetPresentation: List<StudySetPresentation>,
+        val studySets: List<StudySetPresentation>,
         val isLoading: Boolean = false,
         val isError: Boolean = false
     ): ViewState
