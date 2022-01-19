@@ -20,7 +20,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.lexwilliam.hanki.presentation.navigation.BottomNavigationScreens
 import com.lexwilliam.hanki.presentation.screens.home.HomeScreen
+import com.lexwilliam.hanki.presentation.screens.study_set.StudySetScreen
 import com.lexwilliam.hanki.presentation.viewmodel.HomeViewModel
+import com.lexwilliam.hanki.presentation.viewmodel.StudySetViewModel
+import com.lexwilliam.hanki.presentation.viewmodel.StudySetViewModel_Factory
 
 @Composable
 fun MainScreen() {
@@ -46,13 +49,6 @@ fun MainScreen() {
         }
     ) { innerPadding ->
         MainScreenNavigationConfigurations(navController, innerPadding)
-    }
-}
-
-@Composable
-fun HankiTopAppBar() {
-    TopAppBar() {
-
     }
 }
 
@@ -109,6 +105,9 @@ private fun MainScreenNavigationConfigurations(
         composable(Screens.HomeScreen.route) {
             InitHomeScreen()
         }
+        composable(Screens.StudySetScreen.route) {
+            InitStudySetScreen()
+        }
     }
 }
 
@@ -119,6 +118,12 @@ private fun InitHomeScreen() {
 }
 
 @Composable
+private fun InitStudySetScreen() {
+    val studySetViewModel: StudySetViewModel = hiltViewModel()
+    StudySetScreen(state = studySetViewModel.viewState.value)
+}
+
+@Composable
 private fun currentRoute(navController: NavHostController): String? {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     return navBackStackEntry?.destination?.route
@@ -126,4 +131,5 @@ private fun currentRoute(navController: NavHostController): String? {
 
 sealed class Screens(val route: String) {
     object HomeScreen: Screens("home")
+    object StudySetScreen: Screens("studySet")
 }

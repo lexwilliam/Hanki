@@ -37,6 +37,7 @@ object Versions {
     const val okhttpLoggingInterceptor = "4.9.1"
     const val coil = "1.4.0"
     const val jodaTime = "2.10.8"
+    const val truth = "1.1.3"
     const val mockWebServer = "4.9.0"
     const val browser = "1.0.0"
     const val kotlinxCoroutines = "1.5.2"

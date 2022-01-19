@@ -2,6 +2,7 @@ package com.lexwilliam.hanki.presentation.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -13,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.lexwilliam.hanki.model.FlashcardPresentation
 import com.lexwilliam.hanki.model.StudySetPresentation
+import com.lexwilliam.hanki.ui.theme.HankiTheme
 import com.lexwilliam.hanki.ui.theme.NotoSans
 import com.lexwilliam.hanki.ui.theme.NotoSansTypography
 
@@ -21,31 +23,29 @@ fun StudySetGridView(
     modifier: Modifier = Modifier,
     studySet: StudySetPresentation
 ) {
-    Box(
+    Column(
         modifier
             .height(246.dp)
             .width(178.dp)
             .shadow(8.dp, MaterialTheme.shapes.large, true)
             .background(MaterialTheme.colors.background)
     ) {
-        Column() {
+        Box(
+            Modifier
+                .fillMaxWidth(),
+            contentAlignment = Alignment.TopEnd
+        ) {
             Box(
                 Modifier
-                    .fillMaxWidth()
-                    .clip(MaterialTheme.shapes.large),
-                contentAlignment = Alignment.TopEnd
-            ) {
-                Box(
-                    Modifier
-                        .height(160.dp)
-                        .width(144.dp)
-                        .background(MaterialTheme.colors.primary)
-                )
-            }
-            Column(Modifier.padding(16.dp)) {
-                Text(text = studySet.name, style = MaterialTheme.typography.h6)
-                Text(text = studySet.totalFlashcard.toString() + " cards", style = MaterialTheme.typography.caption)
-            }
+                    .height(160.dp)
+                    .width(144.dp)
+                    .clip(RoundedCornerShape(0.dp, 16.dp, 0.dp, 16.dp))
+                    .background(MaterialTheme.colors.primary)
+            )
+        }
+        Column(Modifier.padding(vertical = 8.dp, horizontal = 16.dp)) {
+            Text(text = studySet.name, style = MaterialTheme.typography.h6)
+            Text(text = studySet.totalFlashcard.toString() + " cards", style = MaterialTheme.typography.caption)
         }
     }
 }
@@ -53,7 +53,9 @@ fun StudySetGridView(
 @Preview
 @Composable
 fun StudySetGridViewPreview() {
-    StudySetGridView(studySet = fakeStudySet)
+    HankiTheme {
+        StudySetGridView(studySet = fakeStudySet)
+    }
 }
 
 val fakeFlashcardList = listOf(

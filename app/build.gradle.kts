@@ -79,9 +79,10 @@ dependencies {
 
     testImplementation(Dependencies.jodaTime)
 //    testImplementation(project(ProjectModules.coreAndroidTest))
-//    testImplementation(project(ProjectModules.domain))
+    testImplementation(project(ProjectModules.domain))
 
 //    androidTestImplementation(project(ProjectModules.coreAndroidTest))
+    testImplementation(TestDependencies.AndroidX.googleTruth)
     androidTestImplementation(TestDependencies.AndroidX.core)
     androidTestImplementation(TestDependencies.AndroidX.coreKtx)
     androidTestImplementation(TestDependencies.AndroidX.runner)
