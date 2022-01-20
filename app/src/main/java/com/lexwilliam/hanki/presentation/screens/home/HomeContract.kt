@@ -6,7 +6,9 @@ import com.lexwilliam.hanki.presentation.viewmodel.base.ViewSideEffect
 import com.lexwilliam.hanki.presentation.viewmodel.base.ViewState
 
 class HomeContract {
-    sealed class Event: ViewEvent
+    sealed class Event: ViewEvent {
+        data class AddStudySet(val studySet: StudySetPresentation): Event()
+    }
 
     data class State(
         val studySets: List<StudySetPresentation>,

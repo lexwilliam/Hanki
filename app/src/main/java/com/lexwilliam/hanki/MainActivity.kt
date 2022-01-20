@@ -3,6 +3,7 @@ package com.lexwilliam.hanki
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -12,6 +13,7 @@ import com.lexwilliam.hanki.presentation.screens.MainScreen
 import com.lexwilliam.hanki.ui.theme.HankiTheme
 import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalMaterialApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

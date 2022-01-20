@@ -25,8 +25,8 @@ fun StudySetGridView(
 ) {
     Column(
         modifier
-            .height(246.dp)
-            .width(178.dp)
+            .height(270.dp)
+            .width(200.dp)
             .shadow(8.dp, MaterialTheme.shapes.large, true)
             .background(MaterialTheme.colors.background)
     ) {
@@ -37,8 +37,8 @@ fun StudySetGridView(
         ) {
             Box(
                 Modifier
-                    .height(160.dp)
-                    .width(144.dp)
+                    .height(180.dp)
+                    .width(160.dp)
                     .clip(RoundedCornerShape(0.dp, 16.dp, 0.dp, 16.dp))
                     .background(MaterialTheme.colors.primary)
             )

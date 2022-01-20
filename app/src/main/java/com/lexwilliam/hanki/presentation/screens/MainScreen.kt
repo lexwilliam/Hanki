@@ -1,30 +1,31 @@
 package com.lexwilliam.hanki.presentation.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.lexwilliam.hanki.model.StudySetPresentation
 import com.lexwilliam.hanki.presentation.navigation.BottomNavigationScreens
+import com.lexwilliam.hanki.presentation.screens.home.HomeContract
 import com.lexwilliam.hanki.presentation.screens.home.HomeScreen
 import com.lexwilliam.hanki.presentation.screens.study_set.StudySetScreen
 import com.lexwilliam.hanki.presentation.viewmodel.HomeViewModel
 import com.lexwilliam.hanki.presentation.viewmodel.StudySetViewModel
-import com.lexwilliam.hanki.presentation.viewmodel.StudySetViewModel_Factory
+import kotlinx.coroutines.CoroutineScope
 
+@ExperimentalMaterialApi
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
@@ -50,6 +51,61 @@ fun MainScreen() {
     ) { innerPadding ->
         MainScreenNavigationConfigurations(navController, innerPadding)
     }
+}
+
+@ExperimentalMaterialApi
+@Composable
+private fun MainScreenNavigationConfigurations(
+    navController: NavHostController,
+    paddingValues: PaddingValues
+) {
+    NavHost(navController = navController, startDestination = "home") {
+        composable(Screens.HomeScreen.route) {
+            InitHomeScreen(paddingValues)
+        }
+        composable(Screens.StudySetScreen.route) {
+            InitStudySetScreen(
+                navToAddFlashcard = {
+                    navController.navigate(Screens.AddFlashcardScreen.route)
+                }
+            )
+        }
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+private fun InitHomeScreen(paddingValues: PaddingValues) {
+    val homeViewModel: HomeViewModel = hiltViewModel()
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
+    )
+    val coroutineScope = rememberCoroutineScope()
+    HomeBottomSheet(
+        bottomSheetScaffoldState = bottomSheetScaffoldState,
+        coroutineScope = coroutineScope,
+        homeViewModel = homeViewModel,
+        paddingValues = paddingValues
+    )
+}
+
+@Composable
+private fun InitStudySetScreen(
+    navToAddFlashcard: () -> Unit
+) {
+    val studySetViewModel: StudySetViewModel = hiltViewModel()
+    StudySetFloatingActionBtn(
+        studySetViewModel = studySetViewModel,
+        onClick = {
+            navToAddFlashcard()
+        }
+    )
+}
+
+@Composable
+private fun currentRoute(navController: NavHostController): String? {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    return navBackStackEntry?.destination?.route
 }
 
 @Composable
@@ -97,39 +153,98 @@ private fun RowScope.BottomTab(
 }
 
 @Composable
-private fun MainScreenNavigationConfigurations(
-    navController: NavHostController,
-    paddingValues: PaddingValues
+fun StudySetFloatingActionBtn(
+    studySetViewModel: StudySetViewModel,
+    onClick: () -> Unit
 ) {
-    NavHost(navController = navController, startDestination = "home") {
-        composable(Screens.HomeScreen.route) {
-            InitHomeScreen()
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(onClick = { onClick() }) {
+                Icon(Icons.Default.Add, contentDescription = null)
+            }
         }
-        composable(Screens.StudySetScreen.route) {
-            InitStudySetScreen()
-        }
+    ) {
+        StudySetScreen(
+            state = studySetViewModel.viewState.value
+        )
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+private fun HomeBottomSheet(
+    bottomSheetScaffoldState: BottomSheetScaffoldState,
+    coroutineScope: CoroutineScope,
+    homeViewModel: HomeViewModel,
+    paddingValues: PaddingValues,
+) {
+    BottomSheetScaffold(
+        scaffoldState = bottomSheetScaffoldState,
+        sheetContent = {
+            HomeBottomSheetContent(
+                onEventSent = { event -> homeViewModel.setEvent(event)}
+            )
+        },
+        sheetPeekHeight = 0.dp,
+        sheetElevation = 8.dp,
+        sheetShape = RoundedCornerShape(
+            topStart = 12.dp,
+            topEnd = 12.dp
+        ),
+        modifier = Modifier
+            .padding(paddingValues)
+            .wrapContentHeight()
+    ) {
+        HomeScreen(state = homeViewModel.viewState.value)
     }
 }
 
 @Composable
-private fun InitHomeScreen() {
-    val homeViewModel: HomeViewModel = hiltViewModel()
-    HomeScreen(state = homeViewModel.viewState.value)
-}
-
-@Composable
-private fun InitStudySetScreen() {
-    val studySetViewModel: StudySetViewModel = hiltViewModel()
-    StudySetScreen(state = studySetViewModel.viewState.value)
-}
-
-@Composable
-private fun currentRoute(navController: NavHostController): String? {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    return navBackStackEntry?.destination?.route
+fun HomeBottomSheetContent(
+    modifier: Modifier = Modifier,
+    onEventSent: (event: HomeContract.Event) -> Unit
+) {
+    var setName by remember { mutableStateOf("") }
+    Column(
+        modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+    ) {
+        Column(
+            Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Text(text = "Add a Study Set", style = MaterialTheme.typography.h5)
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = setName,
+                onValueChange = { setName = it }
+            )
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colors.primary),
+                onClick = {
+                    onEventSent(
+                        HomeContract.Event.AddStudySet(
+                            StudySetPresentation(
+                                id = -1,
+                                name = setName,
+                                totalFlashcard = 0,
+                                flashcards = emptyList()
+                            )
+                        )
+                    )
+                }
+            ) {
+                Text(text = "Confirm", style = MaterialTheme.typography.button)
+            }
+        }
+    }
 }
 
 sealed class Screens(val route: String) {
     object HomeScreen: Screens("home")
     object StudySetScreen: Screens("studySet")
+    object AddFlashcardScreen: Screens("addFlashcard")
 }

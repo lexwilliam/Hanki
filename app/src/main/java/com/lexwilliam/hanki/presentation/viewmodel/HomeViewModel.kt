@@ -1,7 +1,10 @@
 package com.lexwilliam.hanki.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import com.lexwilliam.domain.model.StudySet
 import com.lexwilliam.domain.usecase.GetAllStudySets
+import com.lexwilliam.domain.usecase.InsertStudySet
+import com.lexwilliam.hanki.model.StudySetPresentation
 import com.lexwilliam.hanki.presentation.screens.home.HomeContract
 import com.lexwilliam.hanki.presentation.viewmodel.base.BaseViewModel
 import com.lexwilliam.hanki.presentation.viewmodel.mapper.StudySetMapperPresentation
@@ -16,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getAllStudySets: GetAllStudySets,
+    private val insertStudySet: InsertStudySet,
     private val studySetMapper: StudySetMapperPresentation
 ): BaseViewModel<HomeContract.Event, HomeContract.State, HomeContract.Effect>() {
 
@@ -41,7 +45,14 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    override fun handleEvents(event: HomeContract.Event) {}
+    override fun handleEvents(event: HomeContract.Event) {
+        when (event) {
+            is HomeContract.Event.AddStudySet -> {
+                val studySet = event.studySet
+                insertStudySet(studySet)
+            }
+        }
+    }
 
     fun studySets() {
         viewModelScope.launch(errorHandler) {
@@ -62,6 +73,18 @@ class HomeViewModel @Inject constructor(
 
                             }
                     }
+            } catch (throwable: Throwable) {
+                handleExceptions(throwable)
+            }
+        }
+    }
+
+    fun insertStudySet(
+        studySet: StudySetPresentation
+    ) {
+        viewModelScope.launch(errorHandler) {
+            try {
+                insertStudySet.execute(studySetMapper.toDomain(studySet))
             } catch (throwable: Throwable) {
                 handleExceptions(throwable)
             }
