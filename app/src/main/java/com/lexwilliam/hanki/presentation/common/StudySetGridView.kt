@@ -1,6 +1,7 @@
 package com.lexwilliam.hanki.presentation.common
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
@@ -21,7 +22,8 @@ import com.lexwilliam.hanki.ui.theme.NotoSansTypography
 @Composable
 fun StudySetGridView(
     modifier: Modifier = Modifier,
-    studySet: StudySetPresentation
+    studySet: StudySetPresentation,
+    navToStudySet: (Long) -> Unit
 ) {
     Column(
         modifier
@@ -29,6 +31,7 @@ fun StudySetGridView(
             .width(200.dp)
             .shadow(8.dp, MaterialTheme.shapes.large, true)
             .background(MaterialTheme.colors.background)
+            .clickable { navToStudySet(studySet.id) }
     ) {
         Box(
             Modifier
@@ -54,7 +57,7 @@ fun StudySetGridView(
 @Composable
 fun StudySetGridViewPreview() {
     HankiTheme {
-        StudySetGridView(studySet = fakeStudySet)
+        StudySetGridView(studySet = fakeStudySet, navToStudySet = {})
     }
 }
 

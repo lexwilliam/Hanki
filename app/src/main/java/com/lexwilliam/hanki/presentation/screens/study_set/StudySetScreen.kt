@@ -1,6 +1,7 @@
 package com.lexwilliam.hanki.presentation.screens.study_set
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,6 +16,7 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,7 +28,8 @@ import com.lexwilliam.hanki.ui.theme.HankiTheme
 
 @Composable
 fun StudySetScreen(
-    state: StudySetContract.State
+    state: StudySetContract.State,
+    onBackStackPressed: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -34,14 +37,15 @@ fun StudySetScreen(
             .background(MaterialTheme.colors.background),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        StudySetToolBar(studySetName = state.studySet.name)
+        StudySetToolBar(studySetName = state.studySet.name, onBackStackPressed = { onBackStackPressed() })
         FlashcardVerticalList(totalFlashcard = state.studySet.totalFlashcard, flashcards = state.studySet.flashcards)
     }
 }
 
 @Composable
 fun StudySetToolBar(
-    studySetName: String
+    studySetName: String,
+    onBackStackPressed: () -> Unit
 ) {
     Row(
         Modifier
@@ -50,7 +54,12 @@ fun StudySetToolBar(
     ) {
         Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
             Row(Modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Default.ArrowBack, contentDescription = null)
+                Icon(
+                    modifier = Modifier
+                        .clickable { onBackStackPressed() },
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = null
+                )
                 Text(modifier = Modifier.padding(start = 16.dp), text = studySetName, style = MaterialTheme.typography.h6)
             }
         }
@@ -135,7 +144,7 @@ fun StudySetScreenPreview() {
                 .background(MaterialTheme.colors.background),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            StudySetToolBar(studySetName = fakeStudySet.name)
+            StudySetToolBar(studySetName = fakeStudySet.name, onBackStackPressed = {})
             FlashcardVerticalList(totalFlashcard = 5, flashcards = fakeFlashcardList)
         }
     }

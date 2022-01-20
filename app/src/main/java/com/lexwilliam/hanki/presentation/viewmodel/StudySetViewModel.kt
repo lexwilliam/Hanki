@@ -1,5 +1,6 @@
 package com.lexwilliam.hanki.presentation.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.lexwilliam.domain.usecase.GetStudySetById
 import com.lexwilliam.hanki.model.StudySetPresentation
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class StudySetViewModel @Inject constructor(
     private val getStudySetById: GetStudySetById,
-    private val studySetMapper: StudySetMapperPresentation
+    private val studySetMapper: StudySetMapperPresentation,
+    savedStateHandle: SavedStateHandle
 ): BaseViewModel<StudySetContract.Event, StudySetContract.State, StudySetContract.Effect>() {
 
     private val errorHandler = CoroutineExceptionHandler { _, exception ->
@@ -30,8 +32,10 @@ class StudySetViewModel @Inject constructor(
         }
     }
 
-    init {
+    private val studySetIdFromArgs = savedStateHandle.get<Long>("studySet_id")
 
+    init {
+        studySet(studySetIdFromArgs)
     }
 
     override fun setInitialState(): StudySetContract.State {
@@ -44,14 +48,16 @@ class StudySetViewModel @Inject constructor(
 
     override fun handleEvents(event: StudySetContract.Event) {}
 
-    fun studySet(id: Long) {
+    fun studySet(id: Long?) {
         viewModelScope.launch(errorHandler) {
             try {
-                getStudySetById.execute(id)?.let { studySet ->
-                    setState {
-                        copy(
-                            studySet = studySetMapper.toPresentation(studySet)
-                        )
+                id?.let { studySetId ->
+                    getStudySetById.execute(studySetId)?.let { studySet ->
+                        setState {
+                            copy(
+                                studySet = studySetMapper.toPresentation(studySet)
+                            )
+                        }
                     }
                 }
             } catch (throwable: Throwable) {

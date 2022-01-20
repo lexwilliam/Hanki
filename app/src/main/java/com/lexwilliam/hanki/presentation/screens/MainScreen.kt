@@ -8,15 +8,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.lexwilliam.hanki.model.StudySetPresentation
 import com.lexwilliam.hanki.presentation.navigation.BottomNavigationScreens
 import com.lexwilliam.hanki.presentation.screens.home.HomeContract
@@ -63,10 +64,29 @@ private fun MainScreenNavigationConfigurations(
 ) {
     NavHost(navController = navController, startDestination = "home") {
         composable(Screens.HomeScreen.route) {
-            InitHomeScreen(paddingValues)
+            InitHomeScreen(
+                paddingValues = paddingValues,
+                navToStudySet = { studySet_id ->
+                    navController.navigate(
+                        Screens.StudySetScreen.route
+                            .plus("/?studySet_id=$studySet_id")
+                    )
+                }
+            )
         }
-        composable(Screens.StudySetScreen.route) {
+        composable(
+            route = Screens.StudySetScreen.route.plus("/?studySet_id={studySet_id}"),
+            arguments = listOf(
+                    navArgument("studySet_id") {
+                    type = NavType.LongType
+                    defaultValue = -1
+                }
+            )
+        ) {
             InitStudySetScreen(
+                onBackStackPressed = {
+                    navController.navigateUp()
+                },
                 navToAddFlashcard = {
                     navController.navigate(Screens.AddFlashcardScreen.route)
                 }
@@ -77,7 +97,10 @@ private fun MainScreenNavigationConfigurations(
 
 @ExperimentalMaterialApi
 @Composable
-private fun InitHomeScreen(paddingValues: PaddingValues) {
+private fun InitHomeScreen(
+    paddingValues: PaddingValues,
+    navToStudySet: (Long) -> Unit
+) {
     val homeViewModel: HomeViewModel = hiltViewModel()
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
@@ -87,18 +110,21 @@ private fun InitHomeScreen(paddingValues: PaddingValues) {
         bottomSheetScaffoldState = bottomSheetScaffoldState,
         coroutineScope = coroutineScope,
         homeViewModel = homeViewModel,
-        paddingValues = paddingValues
+        paddingValues = paddingValues,
+        navToStudySet = { navToStudySet(it) }
     )
 }
 
 @Composable
 private fun InitStudySetScreen(
+    onBackStackPressed: () -> Unit,
     navToAddFlashcard: () -> Unit
 ) {
     val studySetViewModel: StudySetViewModel = hiltViewModel()
     StudySetFloatingActionBtn(
         studySetViewModel = studySetViewModel,
-        onClick = {
+        onBackStackPressed = { onBackStackPressed() },
+        onFabClick = {
             navToAddFlashcard()
         }
     )
@@ -157,17 +183,19 @@ private fun RowScope.BottomTab(
 @Composable
 fun StudySetFloatingActionBtn(
     studySetViewModel: StudySetViewModel,
-    onClick: () -> Unit
+    onBackStackPressed: () -> Unit,
+    onFabClick: () -> Unit
 ) {
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = { onClick() }) {
+            FloatingActionButton(onClick = { onFabClick() }) {
                 Icon(Icons.Default.Add, contentDescription = null)
             }
         }
     ) {
         StudySetScreen(
-            state = studySetViewModel.viewState.value
+            state = studySetViewModel.viewState.value,
+            onBackStackPressed = { onBackStackPressed() }
         )
     }
 }
@@ -179,6 +207,7 @@ private fun HomeBottomSheet(
     coroutineScope: CoroutineScope,
     homeViewModel: HomeViewModel,
     paddingValues: PaddingValues,
+    navToStudySet: (Long) -> Unit
 ) {
     BottomSheetScaffold(
         scaffoldState = bottomSheetScaffoldState,
@@ -202,7 +231,8 @@ private fun HomeBottomSheet(
         HomeScreen(
             state = homeViewModel.viewState.value,
             bottomSheetScaffoldState = bottomSheetScaffoldState,
-            coroutineScope = coroutineScope
+            coroutineScope = coroutineScope,
+            navToStudySet = { navToStudySet(it) }
         )
     }
 }

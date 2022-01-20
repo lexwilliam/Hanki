@@ -32,7 +32,8 @@ import kotlinx.coroutines.launch
 fun HomeScreen(
     state: HomeContract.State,
     bottomSheetScaffoldState: BottomSheetScaffoldState,
-    coroutineScope: CoroutineScope
+    coroutineScope: CoroutineScope,
+    navToStudySet: (Long) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -42,7 +43,10 @@ fun HomeScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         HomeToolBar()
-        StudySetHorizontalList(studySets = state.studySets)
+        StudySetHorizontalList(
+            studySets = state.studySets,
+            navToStudySet = { navToStudySet(it) }
+        )
         AddStudySetButton(
             onClick = {
                 coroutineScope.launch {
@@ -79,7 +83,8 @@ fun HomeToolBar() {
 
 @Composable
 fun StudySetHorizontalList(
-    studySets: List<StudySetPresentation>
+    studySets: List<StudySetPresentation>,
+    navToStudySet: (Long) -> Unit
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Row(modifier = Modifier
@@ -96,7 +101,11 @@ fun StudySetHorizontalList(
         Row(Modifier.padding(start = 16.dp)) {
             LazyRow {
                 items(studySets) { studySet ->
-                    StudySetGridView(modifier = Modifier.padding(end = 16.dp), studySet = studySet)
+                    StudySetGridView(
+                        modifier = Modifier.padding(end = 16.dp),
+                        studySet = studySet,
+                        navToStudySet = { navToStudySet(it) }
+                    )
                 }
             }
         }
@@ -136,7 +145,7 @@ fun HomeScreenPreview() {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             HomeToolBar()
-            StudySetHorizontalList(studySets = fakeStudySetList)
+            StudySetHorizontalList(studySets = fakeStudySetList, navToStudySet = {})
             AddStudySetButton(onClick = {})
             Spacer(modifier = Modifier.padding(24.dp))
         }
