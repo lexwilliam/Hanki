@@ -1,7 +1,6 @@
 package com.lexwilliam.hanki.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.lexwilliam.domain.model.StudySet
 import com.lexwilliam.domain.usecase.GetAllStudySets
 import com.lexwilliam.domain.usecase.InsertStudySet
 import com.lexwilliam.hanki.model.StudySetPresentation
@@ -34,7 +33,7 @@ class HomeViewModel @Inject constructor(
     }
 
     init {
-        studySets()
+        getStudySets()
     }
 
     override fun setInitialState(): HomeContract.State {
@@ -48,13 +47,12 @@ class HomeViewModel @Inject constructor(
     override fun handleEvents(event: HomeContract.Event) {
         when (event) {
             is HomeContract.Event.AddStudySet -> {
-                val studySet = event.studySet
-                insertStudySet(studySet)
+                insertStudySet(event.studySet)
             }
         }
     }
 
-    fun studySets() {
+    private fun getStudySets() {
         viewModelScope.launch(errorHandler) {
             try {
                 getAllStudySets.execute()
@@ -79,7 +77,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun insertStudySet(
+    private fun insertStudySet(
         studySet: StudySetPresentation
     ) {
         viewModelScope.launch(errorHandler) {

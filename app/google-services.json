@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "416643035762",
+    "project_id": "hanki-c0cf2",
+    "storage_bucket": "hanki-c0cf2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416643035762:android:cb384b95d2a747913d08eb",
+        "android_client_info": {
+          "package_name": "com.lexwilliam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "416643035762-boqnm0efskec1f34iajrbaaf7l1j1rt9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lexwilliam",
+            "certificate_hash": "c6296b0cc726c12c98c0f1fe068bc39cf4b6029d"
+          }
+        },
+        {
+          "client_id": "416643035762-toe30kbld6tlfm9jlolg9dlb1g5gnl82.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2phOpxdZ1-NAYNvP0DilsXCbjn2YZNXU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "416643035762-toe30kbld6tlfm9jlolg9dlb1g5gnl82.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

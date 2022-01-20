@@ -14,6 +14,7 @@ object Versions {
     const val lifecycleLivedataKtx = "2.2.0"
     const val livedataTesting = "1.1.1"
     const val dagger = "2.24"
+    const val firebaseBom = "29.0.3"
     const val hilt = "2.37"
     const val hiltJetpack = "1.0.0-alpha02"
     const val hiltVM = "1.0.0-alpha03"

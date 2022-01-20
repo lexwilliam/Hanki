@@ -70,6 +70,9 @@ dependencies {
     implementation(Dependencies.Hilt.hiltCompiler)
     implementation(Dependencies.Hilt.hiltNavigationCompose)
 
+    implementation(platform(Dependencies.Firebase.firebaseBom))
+    implementation(Dependencies.Firebase.analytics)
+
     implementation(Dependencies.coilCompose)
     implementation(Dependencies.lottie)
     implementation(Dependencies.lottieCompose)

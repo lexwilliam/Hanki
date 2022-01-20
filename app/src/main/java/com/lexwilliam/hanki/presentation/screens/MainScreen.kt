@@ -54,6 +54,7 @@ fun MainScreen() {
     ) { innerPadding ->
         MainScreenNavigationConfigurations(navController, innerPadding)
     }
+
 }
 
 @ExperimentalMaterialApi
@@ -124,9 +125,7 @@ private fun InitStudySetScreen(
     StudySetFloatingActionBtn(
         studySetViewModel = studySetViewModel,
         onBackStackPressed = { onBackStackPressed() },
-        onFabClick = {
-            navToAddFlashcard()
-        }
+        onFabClick = { navToAddFlashcard() }
     )
 }
 
