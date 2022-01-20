@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,6 +25,7 @@ import com.lexwilliam.hanki.presentation.screens.study_set.StudySetScreen
 import com.lexwilliam.hanki.presentation.viewmodel.HomeViewModel
 import com.lexwilliam.hanki.presentation.viewmodel.StudySetViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
 @Composable
@@ -182,6 +184,8 @@ private fun HomeBottomSheet(
         scaffoldState = bottomSheetScaffoldState,
         sheetContent = {
             HomeBottomSheetContent(
+                bottomSheetScaffoldState = bottomSheetScaffoldState,
+                coroutineScope = coroutineScope,
                 onEventSent = { event -> homeViewModel.setEvent(event)}
             )
         },
@@ -195,13 +199,20 @@ private fun HomeBottomSheet(
             .padding(paddingValues)
             .wrapContentHeight()
     ) {
-        HomeScreen(state = homeViewModel.viewState.value)
+        HomeScreen(
+            state = homeViewModel.viewState.value,
+            bottomSheetScaffoldState = bottomSheetScaffoldState,
+            coroutineScope = coroutineScope
+        )
     }
 }
 
+@ExperimentalMaterialApi
 @Composable
 fun HomeBottomSheetContent(
     modifier: Modifier = Modifier,
+    bottomSheetScaffoldState: BottomSheetScaffoldState,
+    coroutineScope: CoroutineScope,
     onEventSent: (event: HomeContract.Event) -> Unit
 ) {
     var setName by remember { mutableStateOf("") }
@@ -217,6 +228,7 @@ fun HomeBottomSheetContent(
             Text(text = "Add a Study Set", style = MaterialTheme.typography.h5)
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
+                label = { Text("Set name")},
                 value = setName,
                 onValueChange = { setName = it }
             )
@@ -228,13 +240,19 @@ fun HomeBottomSheetContent(
                     onEventSent(
                         HomeContract.Event.AddStudySet(
                             StudySetPresentation(
-                                id = -1,
                                 name = setName,
                                 totalFlashcard = 0,
                                 flashcards = emptyList()
                             )
                         )
                     )
+                    coroutineScope.launch {
+                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                            bottomSheetScaffoldState.bottomSheetState.expand()
+                        } else {
+                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                        }
+                    }
                 }
             ) {
                 Text(text = "Confirm", style = MaterialTheme.typography.button)

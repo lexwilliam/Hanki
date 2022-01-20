@@ -6,11 +6,15 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -20,10 +24,15 @@ import com.lexwilliam.hanki.presentation.common.fakeStudySet
 import com.lexwilliam.hanki.presentation.common.fakeStudySetList
 import com.lexwilliam.hanki.ui.theme.HankiTheme
 import com.lexwilliam.hanki.util.TimeProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
+@ExperimentalMaterialApi
 @Composable
 fun HomeScreen(
-    state: HomeContract.State
+    state: HomeContract.State,
+    bottomSheetScaffoldState: BottomSheetScaffoldState,
+    coroutineScope: CoroutineScope
 ) {
     Column(
         modifier = Modifier
@@ -34,6 +43,17 @@ fun HomeScreen(
     ) {
         HomeToolBar()
         StudySetHorizontalList(studySets = state.studySets)
+        AddStudySetButton(
+            onClick = {
+                coroutineScope.launch {
+                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                        bottomSheetScaffoldState.bottomSheetState.expand()
+                    } else {
+                        bottomSheetScaffoldState.bottomSheetState.collapse()
+                    }
+                }
+            }
+        )
         Spacer(modifier = Modifier.padding(24.dp))
     }
 }
@@ -67,10 +87,10 @@ fun StudySetHorizontalList(
             .padding(horizontal = 16.dp)
         ) {
             Box(Modifier.weight(1f) ,contentAlignment = Alignment.CenterStart) {
-                Text("Your Sets", style = MaterialTheme.typography.subtitle1)
+                Text("Your Sets", style = MaterialTheme.typography.subtitle2)
             }
             Box(Modifier.weight(1f), contentAlignment = Alignment.CenterEnd) {
-                Text("See All", style = MaterialTheme.typography.subtitle1)
+                Text("See All", style = MaterialTheme.typography.caption)
             }
         }
         Row(Modifier.padding(start = 16.dp)) {
@@ -79,6 +99,27 @@ fun StudySetHorizontalList(
                     StudySetGridView(modifier = Modifier.padding(end = 16.dp), studySet = studySet)
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun AddStudySetButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    OutlinedButton(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        onClick = { onClick() }
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(Icons.Default.AddCircle, contentDescription = null)
+            Spacer(modifier = Modifier.padding(16.dp))
+            Text(text = "Add a Study Set", style = MaterialTheme.typography.button)
         }
     }
 }
@@ -96,6 +137,8 @@ fun HomeScreenPreview() {
         ) {
             HomeToolBar()
             StudySetHorizontalList(studySets = fakeStudySetList)
+            AddStudySetButton(onClick = {})
+            Spacer(modifier = Modifier.padding(24.dp))
         }
     }
 }
