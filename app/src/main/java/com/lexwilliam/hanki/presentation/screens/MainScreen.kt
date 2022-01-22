@@ -3,11 +3,17 @@ package com.lexwilliam.hanki.presentation.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -18,16 +24,21 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.lexwilliam.hanki.model.FlashcardPresentation
 import com.lexwilliam.hanki.model.StudySetPresentation
 import com.lexwilliam.hanki.presentation.navigation.BottomNavigationScreens
+import com.lexwilliam.hanki.presentation.screens.edit_flashcard.EditFlashcardContract
+import com.lexwilliam.hanki.presentation.screens.edit_flashcard.EditFlashcardScreen
 import com.lexwilliam.hanki.presentation.screens.home.HomeContract
 import com.lexwilliam.hanki.presentation.screens.home.HomeScreen
 import com.lexwilliam.hanki.presentation.screens.study_set.StudySetScreen
+import com.lexwilliam.hanki.presentation.viewmodel.EditFlashcardViewModel
 import com.lexwilliam.hanki.presentation.viewmodel.HomeViewModel
 import com.lexwilliam.hanki.presentation.viewmodel.StudySetViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @Composable
 fun MainScreen() {
@@ -46,7 +57,6 @@ fun MainScreen() {
     Scaffold(
         bottomBar = {
             HankiBottomNavigation(
-                modifier = Modifier,
                 navController = navController,
                 items = bottomNavigationItems
             )
@@ -57,6 +67,7 @@ fun MainScreen() {
 
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @Composable
 private fun MainScreenNavigationConfigurations(
@@ -88,14 +99,31 @@ private fun MainScreenNavigationConfigurations(
                 onBackStackPressed = {
                     navController.navigateUp()
                 },
-                navToAddFlashcard = {
-                    navController.navigate(Screens.AddFlashcardScreen.route)
+                navToEditFlashcard = {
+                    navController.navigate(Screens.EditFlashcardScreen.route)
                 }
+            )
+        }
+        composable(
+            route = Screens.EditFlashcardScreen.route.plus("/?studySet_id={studySet_id}"),
+            arguments = listOf(
+                navArgument("studySet_id") {
+                    type = NavType.LongType
+                    defaultValue = -1
+                }
+            )
+        ) {
+            InitEditFlashcard(
+                onBackStackPressed = {
+                    navController.navigateUp()
+                },
+                paddingValues = paddingValues
             )
         }
     }
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @Composable
 private fun InitHomeScreen(
@@ -119,13 +147,34 @@ private fun InitHomeScreen(
 @Composable
 private fun InitStudySetScreen(
     onBackStackPressed: () -> Unit,
-    navToAddFlashcard: () -> Unit
+    navToEditFlashcard: () -> Unit
 ) {
     val studySetViewModel: StudySetViewModel = hiltViewModel()
     StudySetFloatingActionBtn(
         studySetViewModel = studySetViewModel,
         onBackStackPressed = { onBackStackPressed() },
-        onFabClick = { navToAddFlashcard() }
+        onFabClick = { navToEditFlashcard() }
+    )
+}
+
+@ExperimentalComposeUiApi
+@ExperimentalMaterialApi
+@Composable
+private fun InitEditFlashcard(
+    onBackStackPressed: () -> Unit,
+    paddingValues: PaddingValues
+) {
+    val editFlashcardViewModel: EditFlashcardViewModel = hiltViewModel()
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
+    )
+    val coroutineScope = rememberCoroutineScope()
+    EditFlashcardBottomSheet(
+        bottomSheetScaffoldState = bottomSheetScaffoldState,
+        coroutineScope = coroutineScope,
+        editFlashcardViewModel = editFlashcardViewModel,
+        onBackStackPressed = onBackStackPressed,
+        paddingValues = paddingValues
     )
 }
 
@@ -137,7 +186,6 @@ private fun currentRoute(navController: NavHostController): String? {
 
 @Composable
 fun HankiBottomNavigation(
-    modifier: Modifier,
     navController: NavHostController,
     items: List<BottomNavigationScreens>
 ) {
@@ -149,14 +197,13 @@ fun HankiBottomNavigation(
         val currentRoute = currentRoute(navController = navController)
 
         items.forEach { screen ->
-            BottomTab(modifier, screen, currentRoute, navController)
+            BottomTab(screen, currentRoute, navController)
         }
     }
 }
 
 @Composable
 private fun RowScope.BottomTab(
-    modifier: Modifier,
     screen: BottomNavigationScreens,
     currentRoute: String?,
     navController: NavHostController
@@ -187,7 +234,10 @@ fun StudySetFloatingActionBtn(
 ) {
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = { onFabClick() }) {
+            FloatingActionButton(
+                modifier = Modifier.padding(bottom = 54.dp),
+                onClick = { onFabClick() }
+            ) {
                 Icon(Icons.Default.Add, contentDescription = null)
             }
         }
@@ -199,6 +249,7 @@ fun StudySetFloatingActionBtn(
     }
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @Composable
 private fun HomeBottomSheet(
@@ -236,6 +287,7 @@ private fun HomeBottomSheet(
     }
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @Composable
 fun HomeBottomSheetContent(
@@ -244,6 +296,7 @@ fun HomeBottomSheetContent(
     coroutineScope: CoroutineScope,
     onEventSent: (event: HomeContract.Event) -> Unit
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
     var setName by remember { mutableStateOf("") }
     Column(
         modifier
@@ -259,7 +312,10 @@ fun HomeBottomSheetContent(
                 modifier = Modifier.fillMaxWidth(),
                 label = { Text("Set name")},
                 value = setName,
-                onValueChange = { setName = it }
+                onValueChange = { setName = it },
+                keyboardActions = KeyboardActions(onAny = {
+                    keyboardController?.hide()
+                })
             )
             Button(
                 modifier = Modifier
@@ -290,8 +346,114 @@ fun HomeBottomSheetContent(
     }
 }
 
+@ExperimentalMaterialApi
+@ExperimentalComposeUiApi
+@Composable
+fun EditFlashcardBottomSheet(
+    bottomSheetScaffoldState: BottomSheetScaffoldState,
+    coroutineScope: CoroutineScope,
+    editFlashcardViewModel: EditFlashcardViewModel,
+    paddingValues: PaddingValues,
+    onBackStackPressed: () -> Unit
+) {
+    BottomSheetScaffold(
+        scaffoldState = bottomSheetScaffoldState,
+        sheetContent = {
+            EditFlashcardBottomSheetContent(
+                bottomSheetScaffoldState = bottomSheetScaffoldState,
+                coroutineScope = coroutineScope,
+                studySetName = editFlashcardViewModel.viewState.value.studySet.name,
+                onEventSent = { event -> editFlashcardViewModel.setEvent(event)}
+            )
+        },
+        sheetPeekHeight = 0.dp,
+        sheetElevation = 8.dp,
+        sheetShape = RoundedCornerShape(
+            topStart = 12.dp,
+            topEnd = 12.dp
+        ),
+        modifier = Modifier
+            .padding(paddingValues)
+            .wrapContentHeight()
+    ) {
+        EditFlashcardScreen(
+            onBackStackPressed = {
+                onBackStackPressed()
+            },
+            state = editFlashcardViewModel.viewState.value,
+            onEventSent = { event -> editFlashcardViewModel.setEvent(event)}
+        )
+    }
+}
+
+@ExperimentalMaterialApi
+@ExperimentalComposeUiApi
+@Composable
+fun EditFlashcardBottomSheetContent(
+    bottomSheetScaffoldState: BottomSheetScaffoldState,
+    coroutineScope: CoroutineScope,
+    studySetName: String,
+    onEventSent: (EditFlashcardContract.Event) -> Unit
+) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    var question by remember { mutableStateOf("") }
+    var answer by remember { mutableStateOf("") }
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .shadow(8.dp, MaterialTheme.shapes.medium, true)
+            .background(MaterialTheme.colors.background)
+    ) {
+        Column(
+            Modifier.padding(16.dp)
+        ) {
+            TextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = question,
+                onValueChange = { question = it },
+                label = { Text("Question") },
+                keyboardActions = KeyboardActions(onAny = { keyboardController?.hide() })
+            )
+            Spacer(modifier = Modifier.padding(16.dp))
+            TextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = answer,
+                onValueChange = { answer = it },
+                label = { Text("Answer") },
+                keyboardActions = KeyboardActions(onAny = { keyboardController?.hide() })
+            )
+            Button(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {
+                    onEventSent(
+                        EditFlashcardContract.Event.AddFlashcard(
+                            FlashcardPresentation(
+                                studySetName = studySetName,
+                                question = question,
+                                answer = answer
+                            )
+                        )
+                    )
+                    coroutineScope.launch {
+                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                            bottomSheetScaffoldState.bottomSheetState.expand()
+                        } else {
+                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                        }
+                    }
+                }
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.AddCircle, contentDescription = null)
+                    Text("Add")
+                }
+            }
+        }
+    }
+}
+
 sealed class Screens(val route: String) {
     object HomeScreen: Screens("home")
     object StudySetScreen: Screens("studySet")
-    object AddFlashcardScreen: Screens("addFlashcard")
+    object EditFlashcardScreen: Screens("editFlashcard")
 }
