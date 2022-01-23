@@ -19,8 +19,8 @@ class FlashcardRepositoryImpl @Inject constructor(
         return flashcardLocalSource.getAllStudySetWithFlashcard().map { repositoryStudySetMapper.toDomain(it) }
     }
 
-    override suspend fun getStudySetWithFlashcardById(id: Long): StudySet? {
-        return flashcardLocalSource.getStudySetWithFlashcardById(id)?.let { repositoryStudySetMapper.toDomain(it) }
+    override fun getStudySetWithFlashcardById(id: Long): Flow<StudySet> {
+        return flashcardLocalSource.getStudySetWithFlashcardById(id).map { repositoryStudySetMapper.toDomain(it) }
     }
 
     override suspend fun insertStudySet(studySet: StudySet): Long {

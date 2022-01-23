@@ -8,11 +8,13 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.tooling.preview.Preview
 import com.lexwilliam.hanki.presentation.screens.MainScreen
 import com.lexwilliam.hanki.ui.theme.HankiTheme
 import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

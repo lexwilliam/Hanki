@@ -12,12 +12,15 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -25,11 +28,13 @@ import com.lexwilliam.hanki.model.FlashcardPresentation
 import com.lexwilliam.hanki.presentation.common.fakeFlashcardList
 import com.lexwilliam.hanki.presentation.common.fakeStudySet
 import com.lexwilliam.hanki.ui.theme.HankiTheme
+import com.lexwilliam.hanki.R
 
 @Composable
 fun StudySetScreen(
     state: StudySetContract.State,
-    onBackStackPressed: () -> Unit
+    onBackStackPressed: () -> Unit,
+    navToEditFlashcard: (Long) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -52,7 +57,7 @@ fun StudySetToolBar(
             .padding(start = 16.dp, top = 16.dp, end = 16.dp)
             .height(IntrinsicSize.Min)
     ) {
-        Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
+        Box(Modifier.weight(3f), contentAlignment = Alignment.CenterStart) {
             Row(Modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     modifier = Modifier
@@ -64,12 +69,7 @@ fun StudySetToolBar(
             }
         }
         Box(Modifier.weight(1f), contentAlignment = Alignment.CenterEnd) {
-            Box(
-                Modifier
-                    .size(36.dp)
-                    .shadow(8.dp, MaterialTheme.shapes.small, true)
-                    .background(MaterialTheme.colors.primary)
-            )
+            Icon(Icons.Default.Edit, contentDescription = null)
         }
     }
 }
@@ -128,7 +128,10 @@ fun FlashcardColumnView(
                 }
             }
             Box(Modifier.weight(1f), contentAlignment = Alignment.CenterEnd) {
-                Icon(Icons.Default.Star, contentDescription = null)
+                Row {
+                    Icon(painter = painterResource(id = R.drawable.ic_baseline_volume_up_24), contentDescription = null)
+                    Icon(Icons.Default.Star, contentDescription = null)
+                }
             }
         }
     }

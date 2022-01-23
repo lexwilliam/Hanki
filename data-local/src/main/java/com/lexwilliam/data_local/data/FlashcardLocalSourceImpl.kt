@@ -21,8 +21,8 @@ class FlashcardLocalSourceImpl @Inject constructor(
         return studySetDao.getAllStudySetWithFlashcard().map { localStudySetMapper.toRepo(it) }
     }
 
-    override suspend fun getStudySetWithFlashcardById(id: Long): StudySetRepositoryModel? {
-        return studySetDao.getStudySetWithFlashcardById(id)?.let { localStudySetMapper.toRepo(it) }
+    override fun getStudySetWithFlashcardById(id: Long): Flow<StudySetRepositoryModel> {
+        return studySetDao.getStudySetWithFlashcardById(id).map { localStudySetMapper.toRepo(it) }
     }
 
     override suspend fun insertStudySet(studySet: StudySetRepositoryModel): Long {

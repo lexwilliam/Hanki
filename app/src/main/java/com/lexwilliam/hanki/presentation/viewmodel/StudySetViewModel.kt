@@ -13,6 +13,8 @@ import com.lexwilliam.hanki.presentation.viewmodel.mapper.FlashcardMapperPresent
 import com.lexwilliam.hanki.presentation.viewmodel.mapper.StudySetMapperPresentation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -65,15 +67,22 @@ class StudySetViewModel @Inject constructor(
     private fun getStudySet(id: Long?) {
         viewModelScope.launch(errorHandler) {
             try {
-                id?.let { studySetId ->
-                    getStudySetById.execute(studySetId)?.let { studySet ->
-                        setState {
-                            copy(
-                                studySet = studySetMapper.toPresentation(studySet)
-                            )
-                        }
+                getStudySetById.execute(id!!)
+                    .catch { throwable ->
+                        handleExceptions(throwable)
                     }
-                }
+                    .collect { studySet ->
+                        studySetMapper.toPresentation(studySet)
+                            .let { studySetPresentation ->
+                                setState {
+                                    copy(
+                                        studySet = studySetPresentation,
+                                        isLoading = false
+                                    )
+                                }
+
+                            }
+                    }
             } catch (throwable: Throwable) {
                 handleExceptions(throwable)
             }

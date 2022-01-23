@@ -8,7 +8,7 @@ interface FlashcardRepository {
 
     fun getAllStudySetWithFlashcard(): Flow<List<StudySet>>
 
-    suspend fun getStudySetWithFlashcardById(id: Long): StudySet?
+    fun getStudySetWithFlashcardById(id: Long): Flow<StudySet>
 
     suspend fun insertStudySet(studySet: StudySet): Long
 

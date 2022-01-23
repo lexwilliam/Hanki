@@ -14,7 +14,7 @@ interface StudySetDao {
 
     @Transaction
     @Query("SELECT * FROM studySet WHERE id IS :id")
-    suspend fun getStudySetWithFlashcardById(id: Long): StudySetWithFlashcard?
+    fun getStudySetWithFlashcardById(id: Long): Flow<StudySetWithFlashcard>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertStudySet(studySet: StudySetEntity): Long

@@ -10,10 +10,13 @@ class EditFlashcardContract {
     sealed class Event: ViewEvent {
         data class AddFlashcard(val flashcard: FlashcardPresentation): Event()
         data class UpdateFlashcard(val flashcard: FlashcardPresentation): Event()
+        data class DeleteFlashcard(val flashcard: FlashcardPresentation): Event()
+        data class AddCountStudySet(val studySet: StudySetPresentation): Event()
+        data class SubtractCountStudySet(val studySet: StudySetPresentation): Event()
     }
 
     data class State(
-        val studySet: StudySetPresentation,
+        val studySet: StudySetPresentation = StudySetPresentation(-1, "", -1, emptyList()),
         val isLoading: Boolean = false,
         val isError: Boolean = false
     ): ViewState

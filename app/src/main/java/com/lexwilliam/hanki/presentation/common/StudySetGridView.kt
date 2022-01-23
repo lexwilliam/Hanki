@@ -61,6 +61,8 @@ fun StudySetGridViewPreview() {
     }
 }
 
+val fakeFlashcard = FlashcardPresentation(1, "Fake Study Set", "Fake Question 1", "Fake Answer 1")
+
 val fakeFlashcardList = listOf(
     FlashcardPresentation(1, "Fake Study Set", "Fake Question 1", "Fake Answer 1"),
     FlashcardPresentation(2, "Fake Study Set", "Fake Question 2", "Fake Answer 2"),

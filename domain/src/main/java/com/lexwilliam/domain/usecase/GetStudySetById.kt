@@ -8,7 +8,7 @@ import javax.inject.Inject
 interface GetStudySetById {
     suspend fun execute(
         id: Long
-    ): StudySet?
+    ): Flow<StudySet>
 }
 
 class GetStudySetByIdImpl @Inject constructor(
@@ -16,7 +16,7 @@ class GetStudySetByIdImpl @Inject constructor(
 ): GetStudySetById {
     override suspend fun execute(
         id: Long
-    ): StudySet? {
+    ): Flow<StudySet> {
         return flashcardRepository.getStudySetWithFlashcardById(id)
     }
 }

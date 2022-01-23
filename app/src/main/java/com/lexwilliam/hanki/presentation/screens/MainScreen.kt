@@ -99,8 +99,11 @@ private fun MainScreenNavigationConfigurations(
                 onBackStackPressed = {
                     navController.navigateUp()
                 },
-                navToEditFlashcard = {
-                    navController.navigate(Screens.EditFlashcardScreen.route)
+                navToEditFlashcard = { studySet_id ->
+                    navController.navigate(
+                        Screens.EditFlashcardScreen.route
+                            .plus("/?studySet_id=$studySet_id")
+                    )
                 }
             )
         }
@@ -147,13 +150,13 @@ private fun InitHomeScreen(
 @Composable
 private fun InitStudySetScreen(
     onBackStackPressed: () -> Unit,
-    navToEditFlashcard: () -> Unit
+    navToEditFlashcard: (Long) -> Unit
 ) {
     val studySetViewModel: StudySetViewModel = hiltViewModel()
-    StudySetFloatingActionBtn(
-        studySetViewModel = studySetViewModel,
+    StudySetScreen(
+        state = studySetViewModel.viewState.value,
         onBackStackPressed = { onBackStackPressed() },
-        onFabClick = { navToEditFlashcard() }
+        navToEditFlashcard = { navToEditFlashcard(it) }
     )
 }
 
@@ -224,29 +227,6 @@ private fun RowScope.BottomTab(
         selected = currentRoute == screen.route,
         onClick = onClick
     )
-}
-
-@Composable
-fun StudySetFloatingActionBtn(
-    studySetViewModel: StudySetViewModel,
-    onBackStackPressed: () -> Unit,
-    onFabClick: () -> Unit
-) {
-    Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(
-                modifier = Modifier.padding(bottom = 54.dp),
-                onClick = { onFabClick() }
-            ) {
-                Icon(Icons.Default.Add, contentDescription = null)
-            }
-        }
-    ) {
-        StudySetScreen(
-            state = studySetViewModel.viewState.value,
-            onBackStackPressed = { onBackStackPressed() }
-        )
-    }
 }
 
 @ExperimentalComposeUiApi
@@ -356,33 +336,52 @@ fun EditFlashcardBottomSheet(
     paddingValues: PaddingValues,
     onBackStackPressed: () -> Unit
 ) {
-    BottomSheetScaffold(
-        scaffoldState = bottomSheetScaffoldState,
-        sheetContent = {
-            EditFlashcardBottomSheetContent(
-                bottomSheetScaffoldState = bottomSheetScaffoldState,
-                coroutineScope = coroutineScope,
-                studySetName = editFlashcardViewModel.viewState.value.studySet.name,
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                modifier = Modifier.padding(bottom = 54.dp),
+                onClick = {
+                    coroutineScope.launch {
+                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                            bottomSheetScaffoldState.bottomSheetState.expand()
+                        } else {
+                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                        }
+                    }
+                }
+            ) {
+                Icon(Icons.Default.Add, contentDescription = null)
+            }
+        }
+    ) {
+        BottomSheetScaffold(
+            scaffoldState = bottomSheetScaffoldState,
+            sheetContent = {
+                EditFlashcardBottomSheetContent(
+                    bottomSheetScaffoldState = bottomSheetScaffoldState,
+                    coroutineScope = coroutineScope,
+                    studySetName = editFlashcardViewModel.viewState.value.studySet.name,
+                    onEventSent = { event -> editFlashcardViewModel.setEvent(event)}
+                )
+            },
+            sheetPeekHeight = 0.dp,
+            sheetElevation = 8.dp,
+            sheetShape = RoundedCornerShape(
+                topStart = 12.dp,
+                topEnd = 12.dp
+            ),
+            modifier = Modifier
+                .padding(paddingValues)
+                .wrapContentHeight()
+        ) {
+            EditFlashcardScreen(
+                onBackStackPressed = {
+                    onBackStackPressed()
+                },
+                state = editFlashcardViewModel.viewState.value,
                 onEventSent = { event -> editFlashcardViewModel.setEvent(event)}
             )
-        },
-        sheetPeekHeight = 0.dp,
-        sheetElevation = 8.dp,
-        sheetShape = RoundedCornerShape(
-            topStart = 12.dp,
-            topEnd = 12.dp
-        ),
-        modifier = Modifier
-            .padding(paddingValues)
-            .wrapContentHeight()
-    ) {
-        EditFlashcardScreen(
-            onBackStackPressed = {
-                onBackStackPressed()
-            },
-            state = editFlashcardViewModel.viewState.value,
-            onEventSent = { event -> editFlashcardViewModel.setEvent(event)}
-        )
+        }
     }
 }
 

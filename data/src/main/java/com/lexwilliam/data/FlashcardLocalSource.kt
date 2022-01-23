@@ -2,13 +2,14 @@ package com.lexwilliam.data
 
 import com.lexwilliam.data.model.FlashcardRepositoryModel
 import com.lexwilliam.data.model.StudySetRepositoryModel
+import com.lexwilliam.domain.model.StudySet
 import kotlinx.coroutines.flow.Flow
 
 interface FlashcardLocalSource {
 
     fun getAllStudySetWithFlashcard(): Flow<List<StudySetRepositoryModel>>
 
-    suspend fun getStudySetWithFlashcardById(id: Long): StudySetRepositoryModel?
+    fun getStudySetWithFlashcardById(id: Long): Flow<StudySetRepositoryModel>
 
     suspend fun insertStudySet(studySet: StudySetRepositoryModel): Long
 
