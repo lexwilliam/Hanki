@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.library")
+    id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
 
@@ -7,11 +7,13 @@ android {
     compileSdk = AndroidSettings.compileSdk
 
     defaultConfig {
+        applicationId = "com.lexwilliam.hanki"
         minSdk = AndroidSettings.minSdk
         targetSdk = AndroidSettings.targetSdk
+        versionCode = 1
+        versionName = AndroidSettings.appVersionName
 
         testInstrumentationRunner = AndroidSettings.testInstrumentationRunner
-        proguardFiles(file("consumer-rules.pro"))
     }
 
     buildTypes {
@@ -27,15 +29,15 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
     buildFeatures {
         viewBinding = true
     }
 }
 
 dependencies {
+    implementation(project(":feature-home"))
+    implementation(project(":feature-packs"))
+    implementation(project(":auth"))
 
     implementation(Dependencies.AndroidX.coreKtx)
     implementation(Dependencies.AndroidX.appCompat)
