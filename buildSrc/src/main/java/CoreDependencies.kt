@@ -24,6 +24,7 @@ object Dependencies {
     }
 
     const val playServiceAuth = "com.google.android.gms:play-services-auth:20.2.0"
+    const val gms = "com.google.gms:google-services:4.3.2"
     const val coil = "io.coil-kt:coil:2.1.0"
 
 }

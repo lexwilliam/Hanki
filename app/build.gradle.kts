@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -46,6 +47,9 @@ dependencies {
 
     implementation(Dependencies.Navigation.navigationFragment)
     implementation(Dependencies.Navigation.navigationUi)
+
+    implementation(Dependencies.Firebase.firebaseBom)
+    implementation(Dependencies.Firebase.firebaseAuth)
 
     testImplementation(Dependencies.Testing.junit)
     androidTestImplementation(Dependencies.Testing.junitExt)
