@@ -12,10 +12,18 @@ object Dependencies {
         const val navigationUi = "androidx.navigation:navigation-ui-ktx:2.5.1"
     }
 
+    object Firebase {
+        const val firebaseBom = "com.google.firebase:firebase-bom:30.3.1"
+        const val firebaseAuth = "com.google.firebase:firebase-auth-ktx"
+    }
+
     object Testing {
         const val junit = "junit:junit:4.13.2"
         const val junitExt = "androidx.test.ext:junit:1.1.3"
         const val espressoCore = "androidx.test.espresso:espresso-core:3.4.0"
     }
+
+    const val playServiceAuth = "com.google.android.gms:play-services-auth:20.2.0"
+    const val coil = "io.coil-kt:coil:2.1.0"
 
 }

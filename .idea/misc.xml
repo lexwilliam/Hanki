@@ -5,6 +5,8 @@
       <map>
         <entry key="..\:/Users/willi/AndroidStudioProjects/Hanki/app/src/main/res/drawable/home-48px.xml" value="0.1" />
         <entry key="..\:/Users/willi/AndroidStudioProjects/Hanki/app/src/main/res/drawable/inventory_2-48px.xml" value="0.1" />
+        <entry key="..\:/Users/willi/AndroidStudioProjects/Hanki/app/src/main/res/font/lato_font_family.xml" value="0.19722222222222222" />
+        <entry key="..\:/Users/willi/AndroidStudioProjects/Hanki/app/src/main/res/font/lol.xml" value="0.14791666666666667" />
         <entry key="..\:/Users/willi/AndroidStudioProjects/Hanki/app/src/main/res/layout/activity_main.xml" value="0.128" />
         <entry key="..\:/Users/willi/AndroidStudioProjects/Hanki/app/src/main/res/layout/content_main.xml" value="0.1" />
         <entry key="..\:/Users/willi/AndroidStudioProjects/Hanki/app/src/main/res/menu-v26/bottom_nav_menu.xml" value="0.1" />
@@ -12,6 +14,7 @@
         <entry key="..\:/Users/willi/AndroidStudioProjects/Hanki/app/src/main/res/menu/bottom_nav_menu.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/willi/AndroidStudioProjects/Hanki/app/src/main/res/menu/menu_main.xml" value="0.1" />
         <entry key="..\:/Users/willi/AndroidStudioProjects/Hanki/auth/src/main/res/layout/fragment_login.xml" value="0.25" />
+        <entry key="..\:/Users/willi/AndroidStudioProjects/Hanki/core/src/main/res/font/lol.xml" value="0.2324074074074074" />
         <entry key="..\:/Users/willi/AndroidStudioProjects/Hanki/feature-home/src/main/res/layout/fragment_home.xml" value="0.23324275362318841" />
         <entry key="..\:/Users/willi/AndroidStudioProjects/Hanki/feature-packs/src/main/res/layout/fragment_packs.xml" value="0.12158054711246201" />
       </map>

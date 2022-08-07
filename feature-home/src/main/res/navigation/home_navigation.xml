@@ -9,5 +9,9 @@
         android:id="@+id/homeFragment"
         android:name="com.lexwilliam.feature_home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+
+        <deepLink
+            app:uri="android-app://lexwilliam.hanki.app/home_fragment" />
+    </fragment>
 </navigation>

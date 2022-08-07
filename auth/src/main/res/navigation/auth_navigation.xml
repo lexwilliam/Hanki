@@ -9,5 +9,9 @@
         android:id="@+id/loginFragment"
         android:name="com.lexwilliam.auth.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+
+        <deepLink
+            app:uri="android-app://lexwilliam.hanki.app/login_fragment" />
+    </fragment>
 </navigation>

@@ -36,6 +36,7 @@ android {
 }
 
 dependencies {
+    implementation(project(ProjectModules.core))
 
     implementation(Dependencies.AndroidX.coreKtx)
     implementation(Dependencies.AndroidX.appCompat)
@@ -44,6 +45,10 @@ dependencies {
 
     implementation(Dependencies.Navigation.navigationFragment)
     implementation(Dependencies.Navigation.navigationUi)
+
+    implementation(platform(Dependencies.Firebase.firebaseBom))
+    implementation(Dependencies.Firebase.firebaseAuth)
+    implementation(Dependencies.playServiceAuth)
 
     testImplementation(Dependencies.Testing.junit)
     androidTestImplementation(Dependencies.Testing.junitExt)
