@@ -47,6 +47,7 @@ dependencies {
     implementation(Dependencies.Navigation.navigationUi)
 
     implementation(Dependencies.coil)
+    implementation(Dependencies.jodaTime)
 
     testImplementation(Dependencies.Testing.junit)
     androidTestImplementation(Dependencies.Testing.junitExt)

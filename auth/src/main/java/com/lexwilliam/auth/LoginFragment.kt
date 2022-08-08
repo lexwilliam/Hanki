@@ -67,7 +67,7 @@ class LoginFragment : Fragment() {
 
     private fun createRequest() {
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("868266007724-c2kq9tbfkmi59ade6f6tf6kcbe2usurm.apps.googleusercontent.com")
+            .requestIdToken(BuildConfig.FIREBASE_CLIENT_ID)
             .requestEmail()
             .build()
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)

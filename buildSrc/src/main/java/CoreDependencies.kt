@@ -15,6 +15,7 @@ object Dependencies {
     object Firebase {
         const val firebaseBom = "com.google.firebase:firebase-bom:30.3.1"
         const val firebaseAuth = "com.google.firebase:firebase-auth-ktx"
+        const val firebaseAnalytics = "com.google.firebase:firebase-analytics-ktx"
     }
 
     object Testing {
@@ -23,8 +24,14 @@ object Dependencies {
         const val espressoCore = "androidx.test.espresso:espresso-core:3.4.0"
     }
 
+    object Hilt {
+        const val hilt = "com.google.dagger:hilt-android:2.38.1"
+        const val hiltCompiler = "com.google.dagger:hilt-android-compiler:2.38.1"
+    }
+
+    const val timber = "com.jakewharton.timber:timber:4.7.1"
     const val playServiceAuth = "com.google.android.gms:play-services-auth:20.2.0"
-    const val gms = "com.google.gms:google-services:4.3.2"
     const val coil = "io.coil-kt:coil:2.1.0"
+    const val jodaTime = "joda-time:joda-time:2.10.14"
 
 }
