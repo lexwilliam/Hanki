@@ -6,4 +6,6 @@ object ProjectModules {
     const val featureHome = ":feature-home"
     const val featurePacks = ":feature-packs"
     const val auth = ":auth"
+    const val data = ":data"
+    const val domain = ":domain"
 }

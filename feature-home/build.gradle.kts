@@ -1,6 +1,8 @@
 plugins {
     id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    kotlin("android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -37,6 +39,7 @@ android {
 
 dependencies {
     implementation(project(ProjectModules.core))
+    implementation(project(ProjectModules.domain))
 
     implementation(Dependencies.AndroidX.coreKtx)
     implementation(Dependencies.AndroidX.appCompat)
@@ -45,6 +48,9 @@ dependencies {
 
     implementation(Dependencies.Navigation.navigationFragment)
     implementation(Dependencies.Navigation.navigationUi)
+
+    implementation(Dependencies.Hilt.hilt)
+    kapt(Dependencies.Hilt.hiltCompiler)
 
     implementation(Dependencies.coil)
     implementation(Dependencies.jodaTime)

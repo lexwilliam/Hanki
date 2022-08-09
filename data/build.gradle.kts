@@ -1,7 +1,8 @@
 plugins {
     id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    kotlin("android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -31,29 +32,19 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures {
-        viewBinding = true
-    }
 }
 
 dependencies {
-    implementation(project(ProjectModules.core))
-
-    implementation(Dependencies.AndroidX.coreKtx)
-    implementation(Dependencies.AndroidX.appCompat)
-    implementation(Dependencies.AndroidX.material)
-    implementation(Dependencies.AndroidX.constraintLayout)
-
-    implementation(Dependencies.Navigation.navigationFragment)
-    implementation(Dependencies.Navigation.navigationUi)
+    implementation(project(ProjectModules.domain))
 
     implementation(platform(Dependencies.Firebase.bom))
-    implementation(Dependencies.Firebase.auth)
-    implementation(Dependencies.playServiceAuth)
+    implementation(Dependencies.Firebase.firestore)
 
-    implementation(Dependencies.jodaTime)
+    implementation(Dependencies.Hilt.hilt)
+    kapt(Dependencies.Hilt.hiltCompiler)
+
+    implementation(Dependencies.timber)
 
     testImplementation(Dependencies.Testing.junit)
     androidTestImplementation(Dependencies.Testing.junitExt)
-    androidTestImplementation(Dependencies.Testing.espressoCore)
 }

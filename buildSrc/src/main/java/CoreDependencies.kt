@@ -13,9 +13,10 @@ object Dependencies {
     }
 
     object Firebase {
-        const val firebaseBom = "com.google.firebase:firebase-bom:30.3.1"
-        const val firebaseAuth = "com.google.firebase:firebase-auth-ktx"
-        const val firebaseAnalytics = "com.google.firebase:firebase-analytics-ktx"
+        const val bom = "com.google.firebase:firebase-bom:30.3.1"
+        const val auth = "com.google.firebase:firebase-auth-ktx"
+        const val analytics = "com.google.firebase:firebase-analytics-ktx"
+        const val firestore = "com.google.firebase:firebase-firestore-ktx"
     }
 
     object Testing {
@@ -25,9 +26,15 @@ object Dependencies {
     }
 
     object Hilt {
-        const val hilt = "com.google.dagger:hilt-android:2.38.1"
-        const val hiltCompiler = "com.google.dagger:hilt-android-compiler:2.38.1"
+        const val hilt = "com.google.dagger:hilt-android:2.42"
+        const val hiltCompiler = "com.google.dagger:hilt-android-compiler:2.42"
     }
+
+    const val kotlinxCoroutines =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
+
+    const val kotlinReflect =
+        "org.jetbrains.kotlin:kotlin-reflect:1.7.0"
 
     const val timber = "com.jakewharton.timber:timber:4.7.1"
     const val playServiceAuth = "com.google.android.gms:play-services-auth:20.2.0"

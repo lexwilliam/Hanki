@@ -70,14 +70,15 @@ dependencies {
     implementation(Dependencies.Navigation.navigationFragment)
     implementation(Dependencies.Navigation.navigationUi)
 
-    implementation(Dependencies.Firebase.firebaseBom)
-    implementation(Dependencies.Firebase.firebaseAuth)
-    implementation(Dependencies.Firebase.firebaseAnalytics)
+    implementation(platform(Dependencies.Firebase.bom))
+    implementation(Dependencies.Firebase.auth)
+    implementation(Dependencies.Firebase.analytics)
 
     implementation(Dependencies.Hilt.hilt)
     kapt(Dependencies.Hilt.hiltCompiler)
 
     implementation(Dependencies.timber)
+    implementation(Dependencies.jodaTime)
 
     testImplementation(Dependencies.Testing.junit)
     androidTestImplementation(Dependencies.Testing.junitExt)
