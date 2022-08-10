@@ -1,8 +1,8 @@
 plugins {
     id("com.android.application")
+    id("com.google.gms.google-services")
     kotlin("android")
     kotlin("kapt")
-    id("com.google.gms.google-services")
     id("dagger.hilt.android.plugin")
 }
 
@@ -58,9 +58,12 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature-home"))
-    implementation(project(":feature-packs"))
-    implementation(project(":auth"))
+    implementation(project(ProjectModules.featureHome))
+    implementation(project(ProjectModules.featurePacks))
+    implementation(project(ProjectModules.auth))
+    implementation(project(ProjectModules.domain))
+    implementation(project(ProjectModules.data))
+    implementation(project(ProjectModules.core))
 
     implementation(Dependencies.AndroidX.coreKtx)
     implementation(Dependencies.AndroidX.appCompat)

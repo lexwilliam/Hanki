@@ -26,15 +26,15 @@ object Dependencies {
     }
 
     object Hilt {
-        const val hilt = "com.google.dagger:hilt-android:2.42"
-        const val hiltCompiler = "com.google.dagger:hilt-android-compiler:2.42"
+        const val hilt = "com.google.dagger:hilt-android:2.40"
+        const val hiltCompiler = "com.google.dagger:hilt-android-compiler:2.40"
     }
 
     const val kotlinxCoroutines =
         "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
 
     const val kotlinReflect =
-        "org.jetbrains.kotlin:kotlin-reflect:1.7.0"
+        "org.jetbrains.kotlin:kotlin-reflect:1.6.21"
 
     const val timber = "com.jakewharton.timber:timber:4.7.1"
     const val playServiceAuth = "com.google.android.gms:play-services-auth:20.2.0"
