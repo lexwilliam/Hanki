@@ -25,6 +25,17 @@ class TestRepositoryImpl @Inject constructor(
             }
     }
 
-
+    override suspend fun readTest() {
+        val snapshot = firestore.collection("test")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    Timber.d("${document.id} => ${document.data}")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Timber.tag("Error getting documents").e(exception)
+            }
+    }
 
 }
