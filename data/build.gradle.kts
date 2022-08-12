@@ -37,6 +37,9 @@ android {
 dependencies {
     implementation(project(ProjectModules.domain))
 
+    implementation(Dependencies.kotlinReflect)
+    implementation(Dependencies.kotlinxCoroutines)
+
     implementation(platform(Dependencies.Firebase.bom))
     implementation(Dependencies.Firebase.firestore)
 

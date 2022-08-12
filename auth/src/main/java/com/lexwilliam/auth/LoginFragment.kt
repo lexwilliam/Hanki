@@ -23,7 +23,10 @@ import com.lexwilliam.auth.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
 
-    private val RC_SIGN_IN = 1
+    companion object {
+        private const val RC_SIGN_IN = 1
+    }
+
 
     private lateinit var binding: FragmentLoginBinding
     private lateinit var auth: FirebaseAuth

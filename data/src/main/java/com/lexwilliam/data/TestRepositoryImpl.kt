@@ -2,6 +2,10 @@ package com.lexwilliam.data
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.lexwilliam.domain.TestRepository
+import com.lexwilliam.domain.model.Result
+import com.lexwilliam.domain.model.Test
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -25,17 +29,19 @@ class TestRepositoryImpl @Inject constructor(
             }
     }
 
-    override suspend fun readTest() {
-        val snapshot = firestore.collection("test")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    Timber.d("${document.id} => ${document.data}")
+    override fun readTest() = callbackFlow {
+        val snapshotListener = firestore.collection("test")
+            .addSnapshotListener { snapshot, e ->
+                val response = if (snapshot != null) {
+                    val tests = snapshot.toObjects(Test::class.java)
+                    Result.Success(tests)
+                } else {
+                    Result.Error(e?.message ?: e.toString())
                 }
+                trySend(response).isSuccess
             }
-            .addOnFailureListener { exception ->
-                Timber.tag("Error getting documents").e(exception)
-            }
+        awaitClose {
+            snapshotListener.remove()
+        }
     }
-
 }

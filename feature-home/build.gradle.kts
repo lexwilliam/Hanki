@@ -52,6 +52,7 @@ dependencies {
     implementation(Dependencies.Hilt.hilt)
     kapt(Dependencies.Hilt.hiltCompiler)
 
+    implementation(Dependencies.timber)
     implementation(Dependencies.coil)
     implementation(Dependencies.jodaTime)
 
