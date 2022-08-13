@@ -15,14 +15,14 @@ class TestRepositoryImpl @Inject constructor(
 
     override suspend fun insertTest() {
         val test = hashMapOf(
-            "first" to "Alex",
-            "last" to "Will",
+            "first" to "Alexander",
+            "last" to "William",
             "born" to 2002
         )
-        firestore.collection("test")
-            .add(test)
-            .addOnSuccessListener { documentReference ->
-                Timber.d("DocumentSnapshot added with ID: ${documentReference.id}")
+        firestore.collection("name").document("alex")
+            .set(test)
+            .addOnSuccessListener {
+                Timber.d("DocumentSnapshot successfully written!")
             }
             .addOnFailureListener { e ->
                 Timber.tag("Error adding document").e(e)
@@ -30,7 +30,7 @@ class TestRepositoryImpl @Inject constructor(
     }
 
     override fun readTest() = callbackFlow {
-        val snapshotListener = firestore.collection("test")
+        val snapshotListener = firestore.collection("name")
             .addSnapshotListener { snapshot, e ->
                 val response = if (snapshot != null) {
                     val tests = snapshot.toObjects(Test::class.java)

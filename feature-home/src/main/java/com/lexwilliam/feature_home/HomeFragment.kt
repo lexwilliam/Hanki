@@ -46,7 +46,7 @@ class HomeFragment : Fragment() {
                             val testAdapter = TestAdapter(tests.data)
                             binding.rvMyPacks.apply {
                                 adapter = testAdapter
-                                layoutManager = LinearLayoutManager(requireContext())
+                                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                             }
                         }
                         is Result.Error -> Timber.e(tests.message)

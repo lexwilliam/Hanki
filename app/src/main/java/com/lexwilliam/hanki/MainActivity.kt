@@ -1,6 +1,7 @@
 package com.lexwilliam.hanki
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.navigation.NavController
@@ -45,7 +46,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupBottomNavMenu(navController: NavController) {
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
-        bottomNav.setupWithNavController(navController)
+        binding.bottomNavView.apply {
+            background = null
+            menu.getItem(1).isEnabled = false
+            setupWithNavController(navController)
+        }
     }
 }
