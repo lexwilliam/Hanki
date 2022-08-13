@@ -60,10 +60,12 @@ android {
 dependencies {
     implementation(project(ProjectModules.featureHome))
     implementation(project(ProjectModules.featurePacks))
+    implementation(project(ProjectModules.featureAdd))
     implementation(project(ProjectModules.auth))
     implementation(project(ProjectModules.domain))
     implementation(project(ProjectModules.data))
     implementation(project(ProjectModules.core))
+
 
     implementation(Dependencies.AndroidX.coreKtx)
     implementation(Dependencies.AndroidX.appCompat)

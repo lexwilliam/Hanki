@@ -14,13 +14,16 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.lexwilliam.hanki.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-    private lateinit var auth: FirebaseAuth
+
+    @Inject
+    lateinit var auth: FirebaseAuth
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +35,6 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
-        auth = Firebase.auth
         val user = auth.currentUser
         if (user == null) {
             val request = NavDeepLinkRequest.Builder
@@ -42,6 +44,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         setupBottomNavMenu(navController)
+
+        binding.fabAdd.setOnClickListener {
+            val request = NavDeepLinkRequest.Builder
+                .fromUri("android-app://lexwilliam.hanki.app/add_fragment".toUri())
+                .build()
+            navController.navigate(request)
+        }
 
     }
 

@@ -8,4 +8,5 @@ object ProjectModules {
     const val auth = ":auth"
     const val data = ":data"
     const val domain = ":domain"
+    const val featureAdd = ":feature-add"
 }

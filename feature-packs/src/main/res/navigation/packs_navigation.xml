@@ -9,8 +9,11 @@
         android:id="@+id/packsFragment"
         android:name="com.lexwilliam.feature_packs.PacksFragment"
         android:label="fragment_packs"
-        tools:layout="@layout/fragment_packs" />
+        tools:layout="@layout/fragment_packs">
 
-    <deepLink
-        app:uri="android-app://lexwilliam.hanki.app/packs_fragment" />
+        <deepLink
+            app:uri="android-app://lexwilliam.hanki.app/packs_fragment" />
+    </fragment>
+
+
 </navigation>
