@@ -7,10 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lexwilliam.domain.model.Result
 import com.lexwilliam.feature_home.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
@@ -27,25 +31,29 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        val state = viewModel.state.value
-
         binding.homeDate.text = DateTime.now().toString(DateTimeFormat.forPattern("dd MMM"))
         binding.homeGreeting.setOnClickListener {
             viewModel.insertTest()
         }
 
-        when(val tests = state.tests) {
-            is Result.Success -> {
-                Timber.d("Success")
-                val testAdapter = TestAdapter(tests.data)
-                binding.rvMyPacks.apply {
-                    adapter = testAdapter
-                    layoutManager = LinearLayoutManager(requireContext())
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect { state ->
+                    when(val tests = state.tests) {
+                        is Result.Loading -> Timber.d("Test Loading")
+                        is Result.Success -> {
+                            Timber.d("Success")
+                            val testAdapter = TestAdapter(tests.data)
+                            binding.rvMyPacks.apply {
+                                adapter = testAdapter
+                                layoutManager = LinearLayoutManager(requireContext())
+                            }
+                        }
+                        is Result.Error -> Timber.e(tests.message)
+                    }
                 }
             }
-            is Result.Error -> Timber.e(tests.message)
         }
-
 
         return binding.root
     }
