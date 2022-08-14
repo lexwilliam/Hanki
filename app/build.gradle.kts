@@ -60,6 +60,7 @@ android {
 dependencies {
     implementation(project(ProjectModules.featureHome))
     implementation(project(ProjectModules.featurePacks))
+    implementation(project(ProjectModules.featureExplore))
     implementation(project(ProjectModules.featureAdd))
     implementation(project(ProjectModules.auth))
     implementation(project(ProjectModules.domain))

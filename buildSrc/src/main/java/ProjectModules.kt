@@ -9,4 +9,5 @@ object ProjectModules {
     const val data = ":data"
     const val domain = ":domain"
     const val featureAdd = ":feature-add"
+    const val featureExplore = ":feature-explore"
 }
