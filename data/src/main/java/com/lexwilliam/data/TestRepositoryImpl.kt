@@ -29,7 +29,7 @@ class TestRepositoryImpl @Inject constructor(
             }
     }
 
-    override fun readTest() = callbackFlow {
+    override suspend fun readTest() = callbackFlow {
         val snapshotListener = firestore.collection("name")
             .addSnapshotListener { snapshot, e ->
                 val response = if (snapshot != null) {

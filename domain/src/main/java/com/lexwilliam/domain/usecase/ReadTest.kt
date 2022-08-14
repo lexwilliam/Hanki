@@ -7,13 +7,13 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 interface ReadTest {
-    fun invoke(): Flow<Result<List<Test>>>
+    suspend fun invoke(): Flow<Result<List<Test>>>
 }
 
 class ReadTestImpl @Inject constructor(
     private val testRepository: TestRepository
 ): ReadTest {
-    override fun invoke(): Flow<Result<List<Test>>> =
+    override suspend fun invoke(): Flow<Result<List<Test>>> =
         testRepository.readTest()
 
 }

@@ -8,5 +8,5 @@ interface TestRepository {
 
     suspend fun insertTest()
 
-    fun readTest(): Flow<Result<List<Test>>>
+    suspend fun readTest(): Flow<Result<List<Test>>>
 }
