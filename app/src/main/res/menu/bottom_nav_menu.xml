@@ -5,9 +5,6 @@
         android:icon="@drawable/ic_home"
         android:title="@string/home"/>
     <item
-        android:id="@+id/placeholder"
-        android:title=""/>
-    <item
         android:id="@+id/packs_nav_graph"
         android:icon="@drawable/ic_inventory"
         android:title="@string/packs"/>

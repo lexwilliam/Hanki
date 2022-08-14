@@ -45,19 +45,10 @@ class MainActivity : AppCompatActivity() {
 
         setupBottomNavMenu(navController)
 
-        binding.fabAdd.setOnClickListener {
-            val request = NavDeepLinkRequest.Builder
-                .fromUri("android-app://lexwilliam.hanki.app/add_fragment".toUri())
-                .build()
-            navController.navigate(request)
-        }
-
     }
 
     private fun setupBottomNavMenu(navController: NavController) {
         binding.bottomNavView.apply {
-            background = null
-            menu.getItem(1).isEnabled = false
             setupWithNavController(navController)
         }
     }
