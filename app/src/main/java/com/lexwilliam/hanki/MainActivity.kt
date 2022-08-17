@@ -2,6 +2,7 @@ package com.lexwilliam.hanki
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.navigation.NavController
@@ -44,6 +45,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         setupBottomNavMenu(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, bundle ->
+            if(destination.id == com.lexwilliam.feature_home.R.id.homeFragment
+                || destination.id == com.lexwilliam.feature_explore.R.id.exploreFragment
+                || destination.id == com.lexwilliam.feature_packs.R.id.packsFragment) {
+                binding.bottomNavView.visibility = View.VISIBLE
+            } else {
+                binding.bottomNavView.visibility = View.GONE
+            }
+        }
 
     }
 

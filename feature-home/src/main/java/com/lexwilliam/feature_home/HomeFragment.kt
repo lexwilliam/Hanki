@@ -51,6 +51,13 @@ class HomeFragment : Fragment() {
                         }
                         is Result.Error -> Timber.e(tests.message)
                     }
+                    when(val user = state.user) {
+                        is Result.Loading -> Timber.d("User Loading")
+                        is Result.Success -> {
+                            binding.homeGreeting.text = "Hi, ${user.data.name}"
+                        }
+                        is Result.Error -> Timber.e(user.message)
+                    }
                 }
             }
         }

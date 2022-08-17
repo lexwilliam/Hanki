@@ -42,6 +42,7 @@ dependencies {
 
     implementation(platform(Dependencies.Firebase.bom))
     implementation(Dependencies.Firebase.firestore)
+    implementation(Dependencies.Firebase.auth)
 
     implementation(Dependencies.Hilt.hilt)
     kapt(Dependencies.Hilt.hiltCompiler)

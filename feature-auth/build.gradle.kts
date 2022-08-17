@@ -1,8 +1,7 @@
 plugins {
     id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
+    id("org.jetbrains.kotlin.android")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -39,7 +38,6 @@ android {
 
 dependencies {
     implementation(project(ProjectModules.core))
-    implementation(project(ProjectModules.domain))
 
     implementation(Dependencies.AndroidX.coreKtx)
     implementation(Dependencies.AndroidX.appCompat)
@@ -49,8 +47,12 @@ dependencies {
     implementation(Dependencies.Navigation.navigationFragment)
     implementation(Dependencies.Navigation.navigationUi)
 
-    implementation(Dependencies.Hilt.hilt)
-    kapt(Dependencies.Hilt.hiltCompiler)
+    implementation(platform(Dependencies.Firebase.bom))
+    implementation(Dependencies.Firebase.auth)
+    implementation(Dependencies.playServiceAuth)
+
+    implementation(Dependencies.jodaTime)
+    implementation(Dependencies.timber)
 
     testImplementation(Dependencies.Testing.junit)
     androidTestImplementation(Dependencies.Testing.junitExt)

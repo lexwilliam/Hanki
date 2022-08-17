@@ -7,7 +7,7 @@ pluginManagement {
 }
 rootProject.name = "Hanki"
 include ':app'
-include ':auth'
+include ':feature-auth'
 include ':feature-home'
 include ':feature-packs'
 include ':core'

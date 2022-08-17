@@ -1,10 +1,8 @@
 package com.lexwilliam.domain.di
 
+import com.lexwilliam.domain.AuthRepository
 import com.lexwilliam.domain.TestRepository
-import com.lexwilliam.domain.usecase.InsertTest
-import com.lexwilliam.domain.usecase.InsertTestImpl
-import com.lexwilliam.domain.usecase.ReadTest
-import com.lexwilliam.domain.usecase.ReadTestImpl
+import com.lexwilliam.domain.usecase.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,4 +26,11 @@ object DomainModule {
         testRepository: TestRepository
     ): ReadTest =
         ReadTestImpl(testRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetUserProfile(
+        authRepository: AuthRepository
+    ): GetUserProfile =
+        GetUserProfileImpl(authRepository)
 }
