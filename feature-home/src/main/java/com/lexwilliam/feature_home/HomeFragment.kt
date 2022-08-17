@@ -32,9 +32,6 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         binding.homeDate.text = DateTime.now().toString(DateTimeFormat.forPattern("dd MMM"))
-        binding.homeGreeting.setOnClickListener {
-            viewModel.insertTest()
-        }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
