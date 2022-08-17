@@ -33,4 +33,11 @@ object DomainModule {
         authRepository: AuthRepository
     ): GetUserProfile =
         GetUserProfileImpl(authRepository)
+
+    @Singleton
+    @Provides
+    fun provideIsUserAuthenticated(
+        authRepository: AuthRepository
+    ): IsUserAuthenticated =
+        IsUserAuthenticatedImpl(authRepository)
 }

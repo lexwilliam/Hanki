@@ -1,30 +1,28 @@
 package com.lexwilliam.hanki
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.lexwilliam.hanki.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-
-    @Inject
-    lateinit var auth: FirebaseAuth
+    private val viewModel: MainViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,12 +34,14 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
-        val user = auth.currentUser
-        if (user == null) {
-            val request = NavDeepLinkRequest.Builder
-                .fromUri("android-app://lexwilliam.hanki.app/login_fragment".toUri())
-                .build()
-            navController.navigate(request)
+        lifecycleScope.launch {
+            val isUserAuthenticated = viewModel.isAuthenticated.value
+            if (!isUserAuthenticated) {
+                val request = NavDeepLinkRequest.Builder
+                    .fromUri("android-app://lexwilliam.hanki.app/login_fragment".toUri())
+                    .build()
+                navController.navigate(request)
+            }
         }
 
         setupBottomNavMenu(navController)

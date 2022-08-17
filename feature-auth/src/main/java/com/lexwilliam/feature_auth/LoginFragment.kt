@@ -25,7 +25,6 @@ class LoginFragment : Fragment() {
         private const val RC_SIGN_IN = 1
     }
 
-
     private lateinit var binding: FragmentLoginBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var gso: GoogleSignInOptions

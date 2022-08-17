@@ -77,7 +77,6 @@ dependencies {
     implementation(Dependencies.Navigation.navigationUi)
 
     implementation(platform(Dependencies.Firebase.bom))
-    implementation(Dependencies.Firebase.auth)
     implementation(Dependencies.Firebase.analytics)
 
     implementation(Dependencies.Hilt.hilt)

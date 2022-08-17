@@ -20,6 +20,7 @@
             <option value="$PROJECT_DIR$/feature-explore" />
             <option value="$PROJECT_DIR$/feature-home" />
             <option value="$PROJECT_DIR$/feature-packs" />
+            <option value="$PROJECT_DIR$/feature_edit" />
           </set>
         </option>
       </GradleProjectSettings>

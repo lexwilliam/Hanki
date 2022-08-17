@@ -17,13 +17,14 @@
         android:layout_height="wrap_content"
         android:paddingBottom="16dp"
         android:layout_gravity="bottom|end">
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/floating_action_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:contentDescription="@string/add_pack"
-            app:srcCompat="@drawable/ic_baseline_add_24" />
+            android:text="@string/add_pack"
+            app:icon="@drawable/ic_baseline_add_24" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
