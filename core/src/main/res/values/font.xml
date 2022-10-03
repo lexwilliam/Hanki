@@ -36,8 +36,8 @@
         <item name="android:textSize">18sp</item>
     </style>
     <style name="TextAppearance.MdcTypographyStyles.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/abril_fatface</item>
-        <item name="android:fontFamily">@font/abril_fatface</item>
+        <item name="fontFamily">@font/lato</item>
+        <item name="android:fontFamily">@font/lato</item>
         <item name="android:textSize">15sp</item>
     </style>
     <style name="TextAppearance.MdcTypographyStyles.Body1" parent="TextAppearance.MaterialComponents.Body1">

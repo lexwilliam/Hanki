@@ -1,7 +1,9 @@
 plugins {
     id("com.android.library")
-    id("org.jetbrains.kotlin.android")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    kotlin("android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -38,6 +40,7 @@ android {
 
 dependencies {
     implementation(project(ProjectModules.core))
+    implementation(project(ProjectModules.domain))
 
     implementation(Dependencies.AndroidX.coreKtx)
     implementation(Dependencies.AndroidX.appCompat)
@@ -50,6 +53,9 @@ dependencies {
     implementation(platform(Dependencies.Firebase.bom))
     implementation(Dependencies.Firebase.auth)
     implementation(Dependencies.playServiceAuth)
+
+    implementation(Dependencies.Hilt.hilt)
+    kapt(Dependencies.Hilt.hiltCompiler)
 
     implementation(Dependencies.jodaTime)
     implementation(Dependencies.timber)

@@ -19,8 +19,8 @@ class TestRepositoryImpl @Inject constructor(
             "last" to "William",
             "born" to 2002
         )
-        firestore.collection("name").document("alex")
-            .set(test)
+        firestore.collection("name")
+            .add(test)
             .addOnSuccessListener {
                 Timber.d("DocumentSnapshot successfully written!")
             }

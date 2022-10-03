@@ -40,4 +40,11 @@ object DomainModule {
         authRepository: AuthRepository
     ): IsUserAuthenticated =
         IsUserAuthenticatedImpl(authRepository)
+
+    @Singleton
+    @Provides
+    fun provideInsertUser(
+        authRepository: AuthRepository
+    ): InsertUser =
+        InsertUserImpl(authRepository)
 }

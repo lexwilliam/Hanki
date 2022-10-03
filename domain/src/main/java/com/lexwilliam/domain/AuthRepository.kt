@@ -8,4 +8,6 @@ interface AuthRepository {
     fun isUserAuthenticatedInFirebase(): Boolean
 
     suspend fun getUserProfile(): Flow<Result<User>>
+
+    suspend fun insertUser()
 }
