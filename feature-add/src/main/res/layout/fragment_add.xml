@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/add_pack"
-            style="@style/TextAppearance.MdcTypographyStyles.Headline4"
+            style="@style/TextAppearance.Hanki.DisplayLarge"
             android:textColor="?attr/colorPrimary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            style="@style/TextAppearance.MdcTypographyStyles.Subtitle1"
+            style="@style/TextAppearance.Hanki.TitleMedium"
             android:textColor="?attr/colorPrimary"
             android:text="@string/flashcards"
             app:layout_constraintStart_toStartOf="parent"

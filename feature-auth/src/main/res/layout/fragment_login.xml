@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/login_txt"
-        style="@style/TextAppearance.MdcTypographyStyles.Headline3"
+        style="@style/TextAppearance.Hanki.DisplayLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
