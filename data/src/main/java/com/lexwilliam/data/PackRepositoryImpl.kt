@@ -4,6 +4,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.lexwilliam.domain.AuthRepository
 import com.lexwilliam.domain.model.Flashcard
 import com.lexwilliam.domain.model.Pack
+import com.lexwilliam.domain.model.Result
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -12,14 +13,25 @@ class PackRepositoryImpl @Inject constructor(
     private val authRepository: AuthRepository
 ) {
     suspend fun insertPack(pack: Pack) {
-        firestore.collection("pack")
-            .add(pack)
-            .addOnSuccessListener {
-                Timber.d("DocumentSnapshot successfully written!")
+        authRepository.getUserProfile().collect { user ->
+            when (user) {
+                is Result.Success -> {
+                    firestore.collection("pack").document(user.data.uid)
+                        .set(pack)
+                        .addOnSuccessListener {
+                            Timber.d("DocumentSnapshot successfully written!")
+                        }
+                        .addOnFailureListener { e ->
+                            Timber.tag("Error adding document").e(e)
+                        }
+                }
+                else -> {
+                    Timber.d("User Not Found")
+                }
             }
-            .addOnFailureListener { e ->
-                Timber.tag("Error adding document").e(e)
-            }
+
+        }
+
     }
 
     suspend fun insertFlashcard(documentId: String, flashcard: Flashcard) {
