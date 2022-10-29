@@ -40,6 +40,8 @@ class AuthRepositoryImpl @Inject constructor(
         if (currentUser != null) {
             firestore.collection("user").document(currentUser.uid)
                 .set(User(currentUser.uid, currentUser.displayName, currentUser.photoUrl))
+        } else {
+            Timber.e("Can't get current user")
         }
     }
 

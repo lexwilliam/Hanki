@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.load
 import com.lexwilliam.domain.model.Result
 import com.lexwilliam.feature_home.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,6 +58,7 @@ class HomeFragment : Fragment() {
                         is Result.Loading -> Timber.d("User Loading")
                         is Result.Success -> {
                             binding.homeGreeting.text = "Hi, ${user.data.name}"
+                            binding.profileImage.load(user.data.photoUrl)
                         }
                         is Result.Error -> Timber.e(user.message)
                     }

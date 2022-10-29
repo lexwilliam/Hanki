@@ -17,10 +17,10 @@
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/feature-add" />
             <option value="$PROJECT_DIR$/feature-auth" />
+            <option value="$PROJECT_DIR$/feature-edit" />
             <option value="$PROJECT_DIR$/feature-explore" />
             <option value="$PROJECT_DIR$/feature-home" />
             <option value="$PROJECT_DIR$/feature-packs" />
-            <option value="$PROJECT_DIR$/feature_edit" />
           </set>
         </option>
       </GradleProjectSettings>
