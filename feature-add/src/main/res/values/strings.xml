@@ -4,4 +4,7 @@
     <string name="add_pack">Add Pack</string>
     <string name="name">Name</string>
     <string name="flashcards">Flashcards</string>
+    <string name="title">Title</string>
+    <string name="question">Question</string>
+    <string name="answer">Answer</string>
 </resources>
