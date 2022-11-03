@@ -3,13 +3,17 @@ package com.lexwilliam.feature_add.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.lexwilliam.domain.model.Flashcard
 import com.lexwilliam.feature_add.R
 import timber.log.Timber
 
 
-class FlashcardListAdapter(private val data: List<Flashcard>):
+class FlashcardListAdapter:
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -17,6 +21,8 @@ class FlashcardListAdapter(private val data: List<Flashcard>):
         private const val TYPE_ITEM = 1
         private const val TYPE_FOOTER = 2
     }
+
+    private var data: List<Flashcard> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -61,9 +67,25 @@ class FlashcardListAdapter(private val data: List<Flashcard>):
         fun bind() {}
     }
 
-    inner class FooterViewHolder(view: View): RecyclerView.ViewHolder(view) { fun bind() {} }
+    inner class FooterViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        private val addBtn: Button = view.findViewById(R.id.btn_add_flashcard)
+        fun bind() {
+            addBtn.setOnClickListener {
+                val newList = data + Flashcard(question = "", answer = "")
+                setData(newList)
+                Timber.d(data.toString())
+            }
+        }
+    }
 
     inner class ItemViewHolder(view: View): RecyclerView.ViewHolder(view) {
         fun bind() {}
+    }
+
+    fun setData(newList: List<Flashcard>) {
+        val diffUtil = FlashcardListDiffUtil(data, newList)
+        val diffResult = DiffUtil.calculateDiff(diffUtil)
+        data = newList
+        diffResult.dispatchUpdatesTo(this)
     }
 }

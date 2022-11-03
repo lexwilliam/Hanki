@@ -7,4 +7,5 @@
     <string name="title">Title</string>
     <string name="question">Question</string>
     <string name="answer">Answer</string>
+    <string name="add_flashcard">Add Flashcard</string>
 </resources>
