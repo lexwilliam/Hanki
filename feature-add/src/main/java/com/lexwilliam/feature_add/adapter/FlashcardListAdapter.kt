@@ -4,10 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.lexwilliam.domain.model.Test
+import com.lexwilliam.domain.model.Flashcard
 import com.lexwilliam.feature_add.R
+import timber.log.Timber
 
-class FlashcardListAdapter(private val data: List<Test>):
+
+class FlashcardListAdapter(private val data: List<Flashcard>):
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -18,11 +20,13 @@ class FlashcardListAdapter(private val data: List<Test>):
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
+        Timber.d(viewType.toString())
 
         val inflatedView : RecyclerView.ViewHolder = when (viewType) {
             TYPE_ITEM -> ItemViewHolder(layoutInflater.inflate(R.layout.flashcard_edit_card, parent,false))
-            TYPE_HEADER -> HeaderViewHolder(layoutInflater.inflate(R.layout.flashcard_edit_card, parent,false))
-            else -> FooterViewHolder(layoutInflater.inflate(R.layout.flashcard_edit_card, parent,false))
+            TYPE_HEADER -> HeaderViewHolder(layoutInflater.inflate(R.layout.header_add, parent,false))
+            TYPE_FOOTER -> FooterViewHolder(layoutInflater.inflate(R.layout.footer_add, parent,false))
+            else -> FooterViewHolder(layoutInflater.inflate(R.layout.footer_add, parent,false))
         }
 
         return inflatedView
@@ -40,19 +44,26 @@ class FlashcardListAdapter(private val data: List<Test>):
         if (position == 0) {
             return TYPE_HEADER;
         }
-        else if (position == data.size) {
+        else if (position == data.size + 1) {
             return TYPE_FOOTER
         }
         return TYPE_ITEM;
     }
 
     override fun getItemCount(): Int {
-        return data.size
+        if (data.isEmpty()) {
+            return 1;
+        }
+        return data.size + 2
+    }
+
+    inner class HeaderViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        fun bind() {}
+    }
+
+    inner class FooterViewHolder(view: View): RecyclerView.ViewHolder(view) { fun bind() {} }
+
+    inner class ItemViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        fun bind() {}
     }
 }
-
-class HeaderViewHolder(view: View): RecyclerView.ViewHolder(view) { fun bind() {} }
-
-class FooterViewHolder(view: View): RecyclerView.ViewHolder(view) { fun bind() {} }
-
-class ItemViewHolder(view: View): RecyclerView.ViewHolder(view) { fun bind() {} }

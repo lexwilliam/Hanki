@@ -40,28 +40,26 @@ class HomeFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.state.collect { state ->
-                    when(val tests = state.tests) {
-                        is Result.Loading -> Timber.d("Test Loading")
-                        is Result.Success -> {
-                            Timber.d("Success")
-                            val testAdapter = TestAdapter(tests.data)
-                            binding.rvMyPacks.apply {
-                                adapter = testAdapter
-                                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                            }
+            viewModel.state.collect { state ->
+                when(val tests = state.tests) {
+                    is Result.Loading -> Timber.d("Test Loading")
+                    is Result.Success -> {
+                        Timber.d("Success")
+                        val testAdapter = TestAdapter(tests.data)
+                        binding.rvMyPacks.apply {
+                            adapter = testAdapter
+                            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                         }
-                        is Result.Error -> Timber.e(tests.message)
                     }
-                    when(val user = state.user) {
-                        is Result.Loading -> Timber.d("User Loading")
-                        is Result.Success -> {
-                            binding.homeGreeting.text = "Hi, ${user.data.name}"
-                            binding.profileImage.load(user.data.photoUrl)
-                        }
-                        is Result.Error -> Timber.e(user.message)
+                    is Result.Error -> Timber.e(tests.message)
+                }
+                when(val user = state.user) {
+                    is Result.Loading -> Timber.d("User Loading")
+                    is Result.Success -> {
+                        binding.homeGreeting.text = "Hi, ${user.data.name}"
+                        binding.profileImage.load(user.data.photoUrl)
                     }
+                    is Result.Error -> Timber.e(user.message)
                 }
             }
         }

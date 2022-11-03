@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.lexwilliam.domain.model.Flashcard
+import com.lexwilliam.feature_add.adapter.FlashcardListAdapter
 import com.lexwilliam.feature_add.databinding.FragmentAddBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,6 +27,13 @@ class AddFragment : Fragment() {
 
         binding.addToolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
+        }
+
+        val initFlashcard = listOf(Flashcard(question="", answer=""))
+        val flashcardListAdapter = FlashcardListAdapter(initFlashcard)
+        binding.rvFlashcardList.apply {
+            adapter = flashcardListAdapter
+            layoutManager = LinearLayoutManager(requireContext())
         }
 
 
