@@ -8,4 +8,5 @@
     <string name="question">Question</string>
     <string name="answer">Answer</string>
     <string name="add_flashcard">Add Flashcard</string>
+    <string name="add_flashcard_fab">add_flashcard_fab</string>
 </resources>

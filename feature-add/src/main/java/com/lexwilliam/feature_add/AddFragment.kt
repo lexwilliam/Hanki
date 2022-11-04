@@ -9,10 +9,12 @@ import android.widget.LinearLayout
 import androidx.core.net.toUri
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lexwilliam.domain.model.Flashcard
 import com.lexwilliam.feature_add.adapter.FlashcardListAdapter
+import com.lexwilliam.feature_add.adapter.HeaderAdapter
 import com.lexwilliam.feature_add.databinding.FragmentAddBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,6 +23,7 @@ class AddFragment : Fragment() {
 
     private lateinit var binding: FragmentAddBinding
     private val flashcardListAdapter by lazy { FlashcardListAdapter() }
+    private val headerAdapter by lazy { HeaderAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,13 +35,21 @@ class AddFragment : Fragment() {
             findNavController().navigateUp()
         }
 
+        val concatAdapter = ConcatAdapter(headerAdapter, flashcardListAdapter)
+
         binding.rvFlashcardList.apply {
-            adapter = flashcardListAdapter
+            adapter = concatAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        val initFlashcard = Flashcard(question = "", answer = "")
-        flashcardListAdapter.setData(mutableListOf(initFlashcard))
+        val flashcards = ArrayList<Flashcard>()
+        flashcards.add(Flashcard(question = "", answer = ""))
+        flashcardListAdapter.setData(flashcards)
+
+        binding.fabAddFlashcard.setOnClickListener {
+            flashcards.add(Flashcard(question = "", answer = ""))
+            flashcardListAdapter.setData(flashcards)
+        }
 
 
         return binding.root
