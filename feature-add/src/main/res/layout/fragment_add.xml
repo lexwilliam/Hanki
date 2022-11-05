@@ -27,6 +27,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvFlashcardList"
+            android:paddingBottom="128dp"
+            android:clipToPadding="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"

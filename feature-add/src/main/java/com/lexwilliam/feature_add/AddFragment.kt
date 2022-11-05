@@ -24,6 +24,7 @@ class AddFragment : Fragment() {
     private lateinit var binding: FragmentAddBinding
     private val flashcardListAdapter by lazy { FlashcardListAdapter() }
     private val headerAdapter by lazy { HeaderAdapter() }
+    private var count = 1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +50,10 @@ class AddFragment : Fragment() {
         binding.fabAddFlashcard.setOnClickListener {
             flashcards.add(Flashcard(question = "", answer = ""))
             flashcardListAdapter.setData(flashcards)
+
+            // scroll to added item
+            count++
+            binding.rvFlashcardList.scrollToPosition(count)
         }
 
 
