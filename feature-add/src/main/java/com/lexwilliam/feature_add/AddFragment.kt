@@ -16,12 +16,15 @@ import com.lexwilliam.domain.model.Flashcard
 import com.lexwilliam.feature_add.adapter.FlashcardListAdapter
 import com.lexwilliam.feature_add.adapter.HeaderAdapter
 import com.lexwilliam.feature_add.databinding.FragmentAddBinding
+import com.lexwilliam.feature_add.model.FlashcardPresentation
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class AddFragment : Fragment() {
 
     private lateinit var binding: FragmentAddBinding
+    private val flashcards = ArrayList<FlashcardPresentation>()
     private val flashcardListAdapter by lazy { FlashcardListAdapter() }
     private val headerAdapter by lazy { HeaderAdapter() }
     private var count = 1
@@ -32,10 +35,31 @@ class AddFragment : Fragment() {
     ): View {
         binding = FragmentAddBinding.inflate(inflater, container, false)
 
+        setToolbar()
+        setAdapter()
+
+        return binding.root
+    }
+
+    private fun setToolbar() {
         binding.addToolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
 
+        binding.addToolbar.setOnMenuItemClickListener { menuItem ->
+            when(menuItem.itemId) {
+                R.id.save -> {
+                    Timber.d(flashcards.toString())
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
+    }
+
+    private fun setAdapter() {
         val concatAdapter = ConcatAdapter(headerAdapter, flashcardListAdapter)
 
         binding.rvFlashcardList.apply {
@@ -43,20 +67,15 @@ class AddFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        val flashcards = ArrayList<Flashcard>()
-        flashcards.add(Flashcard(question = "", answer = ""))
+        flashcards.add(FlashcardPresentation())
         flashcardListAdapter.setData(flashcards)
 
         binding.fabAddFlashcard.setOnClickListener {
-            flashcards.add(Flashcard(question = "", answer = ""))
+            flashcards.add(FlashcardPresentation())
             flashcardListAdapter.setData(flashcards)
-
             // scroll to added item
             count++
             binding.rvFlashcardList.scrollToPosition(count)
         }
-
-
-        return binding.root
     }
 }

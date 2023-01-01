@@ -1,47 +1,50 @@
 package com.lexwilliam.feature_add.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.lexwilliam.domain.model.Flashcard
 import com.lexwilliam.feature_add.R
+import com.lexwilliam.feature_add.databinding.FlashcardEditCardBinding
+import com.lexwilliam.feature_add.model.FlashcardPresentation
 
 
 class FlashcardListAdapter:
-    RecyclerView.Adapter<FlashcardListAdapter.ViewHolder>() {
+    RecyclerView.Adapter<FlashcardListAdapter.FlashcardViewHolder>() {
 
-    private var data = ArrayList<Flashcard>()
+    private val flashcards = ArrayList<FlashcardPresentation>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-            .inflate(R.layout.flashcard_edit_card, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FlashcardViewHolder =
+        FlashcardViewHolder(
+            FlashcardEditCardBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
-        return ViewHolder(layoutInflater)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(position.toString())
+    override fun onBindViewHolder(holder: FlashcardViewHolder, position: Int) {
+        holder.bind(flashcards[position])
     }
 
     override fun getItemCount(): Int {
-        return data.size
+        return flashcards.size
     }
 
-    inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        private val idTxt: TextView = view.findViewById(R.id.id_txt)
-        fun bind(position: String) {
-            idTxt.text = position
+    inner class FlashcardViewHolder(private val binding: FlashcardEditCardBinding): RecyclerView.ViewHolder(binding.root) {
+        fun bind(flashcard: FlashcardPresentation) {
+            binding.flashcard = flashcard
         }
     }
 
-    fun setData(newList: ArrayList<Flashcard>) {
-        val diffUtil = FlashcardListDiffUtil(data, newList)
+    fun setData(newList: ArrayList<FlashcardPresentation>) {
+        val diffUtil = FlashcardListDiffUtil(flashcards, newList)
         val diffResult = DiffUtil.calculateDiff(diffUtil)
-        data.clear()
-        data.addAll(newList)
+        flashcards.clear()
+        flashcards.addAll(newList)
         diffResult.dispatchUpdatesTo(this)
     }
 }
