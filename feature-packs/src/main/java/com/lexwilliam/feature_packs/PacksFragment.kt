@@ -9,7 +9,9 @@ import androidx.core.net.toUri
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import com.lexwilliam.feature_packs.databinding.FragmentPacksBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PacksFragment : Fragment() {
 
     private lateinit var binding: FragmentPacksBinding

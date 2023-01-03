@@ -55,4 +55,11 @@ object DomainModule {
         packRepository: PackRepository
     ): InsertPack =
         InsertPackImpl(packRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetPack(
+        packRepository: PackRepository
+    ): GetPack =
+        GetPackImpl(packRepository)
 }
