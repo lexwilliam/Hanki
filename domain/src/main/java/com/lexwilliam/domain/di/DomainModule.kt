@@ -1,6 +1,7 @@
 package com.lexwilliam.domain.di
 
 import com.lexwilliam.domain.AuthRepository
+import com.lexwilliam.domain.PackRepository
 import com.lexwilliam.domain.TestRepository
 import com.lexwilliam.domain.usecase.*
 import dagger.Module
@@ -47,4 +48,11 @@ object DomainModule {
         authRepository: AuthRepository
     ): InsertUser =
         InsertUserImpl(authRepository)
+
+    @Singleton
+    @Provides
+    fun provideInsertPack(
+        packRepository: PackRepository
+    ): InsertPack =
+        InsertPackImpl(packRepository)
 }

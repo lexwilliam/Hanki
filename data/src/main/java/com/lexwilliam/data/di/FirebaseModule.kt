@@ -26,19 +26,4 @@ object FirebaseModule {
     @Singleton
     @Provides
     fun provideFirebaseAuth(): FirebaseAuth = Firebase.auth
-
-    @Singleton
-    @Provides
-    fun provideTestRepository(
-        firestore: FirebaseFirestore
-    ): TestRepository =
-        TestRepositoryImpl(firestore)
-
-    @Singleton
-    @Provides
-    fun provideAuthRepository(
-        auth: FirebaseAuth,
-        firestore: FirebaseFirestore
-    ): AuthRepository =
-        AuthRepositoryImpl(auth, firestore)
 }
