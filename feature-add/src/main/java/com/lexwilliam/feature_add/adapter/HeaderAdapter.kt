@@ -5,25 +5,31 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lexwilliam.feature_add.R
+import com.lexwilliam.feature_add.databinding.HeaderAddBinding
+import com.lexwilliam.feature_add.model.TitlePresentation
 
-class HeaderAdapter : RecyclerView.Adapter<HeaderAdapter.ViewHolder>() {
+class HeaderAdapter(private val title: TitlePresentation) : RecyclerView.Adapter<HeaderAdapter.HeaderViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.header_add, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeaderViewHolder =
+        HeaderViewHolder(
+            HeaderAddBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
-        return ViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind()
+    override fun onBindViewHolder(holder: HeaderViewHolder, position: Int) {
+        holder.bind(title)
     }
 
     override fun getItemCount(): Int {
         return 1
     }
 
-    inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        fun bind() {}
+    inner class HeaderViewHolder(private val binding: HeaderAddBinding): RecyclerView.ViewHolder(binding.root) {
+        fun bind(title: TitlePresentation) {
+            binding.title = title
+        }
     }
 }

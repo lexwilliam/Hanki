@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.net.toUri
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
@@ -17,6 +18,8 @@ import com.lexwilliam.feature_add.adapter.FlashcardListAdapter
 import com.lexwilliam.feature_add.adapter.HeaderAdapter
 import com.lexwilliam.feature_add.databinding.FragmentAddBinding
 import com.lexwilliam.feature_add.model.FlashcardPresentation
+import com.lexwilliam.feature_add.model.PackPresentation
+import com.lexwilliam.feature_add.model.TitlePresentation
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -25,8 +28,10 @@ class AddFragment : Fragment() {
 
     private lateinit var binding: FragmentAddBinding
     private val flashcards = ArrayList<FlashcardPresentation>()
+    private val title = TitlePresentation("")
     private val flashcardListAdapter by lazy { FlashcardListAdapter() }
-    private val headerAdapter by lazy { HeaderAdapter() }
+    private val headerAdapter by lazy { HeaderAdapter(title) }
+    private val viewModel: AddViewModel by viewModels()
     private var count = 1
 
     override fun onCreateView(
@@ -49,7 +54,10 @@ class AddFragment : Fragment() {
         binding.addToolbar.setOnMenuItemClickListener { menuItem ->
             when(menuItem.itemId) {
                 R.id.save -> {
-                    Timber.d(flashcards.toString())
+                    viewModel.createPack(
+                        name = title.title,
+                        flashcards = flashcards
+                    )
                     true
                 }
                 else -> {
