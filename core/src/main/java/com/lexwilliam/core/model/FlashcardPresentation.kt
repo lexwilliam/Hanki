@@ -1,4 +1,4 @@
-package com.lexwilliam.feature_add.model
+package com.lexwilliam.core.model
 
 import java.util.*
 

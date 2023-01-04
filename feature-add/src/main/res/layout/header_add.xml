@@ -5,7 +5,7 @@
     <data>
         <variable
             name="title"
-            type="com.lexwilliam.feature_add.model.TitlePresentation" />
+            type="com.lexwilliam.core.model.TitlePresentation" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

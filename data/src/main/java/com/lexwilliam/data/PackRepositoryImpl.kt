@@ -8,6 +8,7 @@ import com.lexwilliam.domain.AuthRepository
 import com.lexwilliam.domain.PackRepository
 import com.lexwilliam.domain.model.Pack
 import com.lexwilliam.domain.model.PackInfo
+import com.lexwilliam.domain.model.PackInfoList
 import com.lexwilliam.domain.model.Result
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -37,7 +38,7 @@ class PackRepositoryImpl @Inject constructor(
                         pack.id,
                         pack.title,
                         pack.creatorName,
-                        pack.creatorPhotoUrl
+                        pack.creatorPhotoUrl.toString()
                     )
                     val docRef = firestore.collection("userPack").document(user.data.uid)
                     docRef.get().addOnCompleteListener { task ->
@@ -50,8 +51,14 @@ class PackRepositoryImpl @Inject constructor(
                                     docRef.set(hashMap)
                                     Timber.d("Create empty array")
                                 }
-                                docRef.update("userPack", FieldValue.arrayUnion(packInfo))
-                                Timber.d("Update Successfully")
+                                docRef
+                                    .update("userPack", FieldValue.arrayUnion(packInfo))
+                                    .addOnCompleteListener {
+                                        Timber.d("Update Successfully")
+                                    }
+                                    .addOnFailureListener {
+                                        Timber.d("Update Unsuccessful")
+                                    }
                             }
                         } else {
                             Timber.d("Task not successful")
@@ -90,17 +97,24 @@ class PackRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getUserPackList(userId: Pack): Flow<Result<List<Pack>>> = callbackFlow {
+    override suspend fun getUserPackList(userId: String): Flow<Result<List<PackInfo>>> = callbackFlow {
         trySend(Result.Loading)
 
-        val subscription = firestore.collection("packs")
+        val subscription = firestore.collection("userPack").document(userId)
             .addSnapshotListener { value, error ->
                 if (error != null) {
                     trySend(Result.Error("Error"))
                 } else {
-                    value?.let {
-                        val data = value.toObjects<Pack>()
-                        trySend(Result.Success(data))
+                    if (value != null) {
+                        val data = value.toObject(PackInfoList::class.java)
+                        Timber.d(data.toString())
+                        if (data != null) {
+                            val packs = data.userPack
+                            if (packs != null) {
+                                Timber.d("3")
+                                trySend(Result.Success(packs))
+                            }
+                        }
                     }
                 }
             }

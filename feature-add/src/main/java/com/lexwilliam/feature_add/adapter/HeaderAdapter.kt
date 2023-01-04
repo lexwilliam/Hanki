@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lexwilliam.feature_add.R
 import com.lexwilliam.feature_add.databinding.HeaderAddBinding
-import com.lexwilliam.feature_add.model.TitlePresentation
+import com.lexwilliam.core.model.TitlePresentation
 
 class HeaderAdapter(private val title: TitlePresentation) : RecyclerView.Adapter<HeaderAdapter.HeaderViewHolder>() {
 

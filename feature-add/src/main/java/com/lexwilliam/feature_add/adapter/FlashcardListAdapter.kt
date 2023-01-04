@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lexwilliam.domain.model.Flashcard
 import com.lexwilliam.feature_add.R
 import com.lexwilliam.feature_add.databinding.FlashcardEditCardBinding
-import com.lexwilliam.feature_add.model.FlashcardPresentation
+import com.lexwilliam.core.model.FlashcardPresentation
 
 
 class FlashcardListAdapter:

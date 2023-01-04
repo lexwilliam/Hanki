@@ -5,23 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.lexwilliam.domain.model.Flashcard
 import com.lexwilliam.feature_add.adapter.FlashcardListAdapter
 import com.lexwilliam.feature_add.adapter.HeaderAdapter
 import com.lexwilliam.feature_add.databinding.FragmentAddBinding
-import com.lexwilliam.feature_add.model.FlashcardPresentation
-import com.lexwilliam.feature_add.model.PackPresentation
-import com.lexwilliam.feature_add.model.TitlePresentation
+import com.lexwilliam.core.model.FlashcardPresentation
+import com.lexwilliam.core.model.TitlePresentation
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class AddFragment : Fragment() {
@@ -55,7 +48,7 @@ class AddFragment : Fragment() {
             when(menuItem.itemId) {
                 R.id.save -> {
                     viewModel.createPack(
-                        name = title.title,
+                        title = title.title,
                         flashcards = flashcards
                     )
                     true

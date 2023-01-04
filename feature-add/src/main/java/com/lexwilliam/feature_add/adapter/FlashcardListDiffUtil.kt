@@ -2,7 +2,7 @@ package com.lexwilliam.feature_add.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.lexwilliam.domain.model.Flashcard
-import com.lexwilliam.feature_add.model.FlashcardPresentation
+import com.lexwilliam.core.model.FlashcardPresentation
 
 class FlashcardListDiffUtil(
     private val oldList: List<FlashcardPresentation>,

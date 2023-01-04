@@ -62,4 +62,11 @@ object DomainModule {
         packRepository: PackRepository
     ): GetPack =
         GetPackImpl(packRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetUserPackList(
+        packRepository: PackRepository
+    ): GetUserPackList =
+        GetUserPackListImpl(packRepository)
 }

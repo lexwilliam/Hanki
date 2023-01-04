@@ -5,15 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.lexwilliam.domain.model.Result
+import com.lexwilliam.feature_home.adapter.HistoryAdapter
 import com.lexwilliam.feature_home.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -35,27 +32,24 @@ class HomeFragment : Fragment() {
 
         binding.homeDate.text = DateTime.now().toString(DateTimeFormat.forPattern("dd MMM"))
 
-        binding.homeGreeting.setOnClickListener {
-            viewModel.insertTest()
-        }
-
         lifecycleScope.launch {
             viewModel.state.collect { state ->
-                when(val tests = state.tests) {
-                    is Result.Loading -> Timber.d("Test Loading")
+                when(val userPackList = state.userPackList) {
+                    is Result.Loading -> Timber.d("Loading")
                     is Result.Success -> {
                         Timber.d("Success")
-                        val testAdapter = TestAdapter(tests.data)
+                        val historyAdapter = HistoryAdapter(userPackList.data)
                         binding.rvMyPacks.apply {
-                            adapter = testAdapter
+                            adapter = historyAdapter
                             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                         }
                     }
-                    is Result.Error -> Timber.e(tests.message)
+                    is Result.Error -> Timber.e(userPackList.message)
                 }
                 when(val user = state.user) {
-                    is Result.Loading -> Timber.d("User Loading")
+                    is Result.Loading -> Timber.d("Loading")
                     is Result.Success -> {
+                        Timber.d("Success")
                         binding.homeGreeting.text = "Hi, ${user.data.name}"
                         binding.profileImage.load(user.data.photoUrl)
                     }
