@@ -1,4 +1,34 @@
 package com.lexwilliam.feature_packs.adapter
 
-class PackListAdapter {
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.lexwilliam.core.model.PackInfoPresentation
+import com.lexwilliam.feature_packs.databinding.PackCardBinding
+
+class PackListAdapter(private val packs: List<PackInfoPresentation>):
+    RecyclerView.Adapter<PackListAdapter.PackListViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PackListViewHolder =
+        PackListViewHolder(
+            PackCardBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
+
+    override fun onBindViewHolder(holder: PackListViewHolder, position: Int) {
+        holder.bind(packs[position])
+    }
+
+    override fun getItemCount(): Int {
+        return packs.size
+    }
+
+    inner class PackListViewHolder(private val binding: PackCardBinding): RecyclerView.ViewHolder(binding.root) {
+        fun bind(packInfo: PackInfoPresentation) {
+            binding.packInfo = packInfo
+        }
+    }
 }
