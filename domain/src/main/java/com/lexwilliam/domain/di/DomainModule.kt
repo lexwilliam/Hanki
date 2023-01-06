@@ -1,8 +1,7 @@
 package com.lexwilliam.domain.di
 
-import com.lexwilliam.domain.AuthRepository
+import com.lexwilliam.domain.UserRepository
 import com.lexwilliam.domain.PackRepository
-import com.lexwilliam.domain.TestRepository
 import com.lexwilliam.domain.usecase.*
 import dagger.Module
 import dagger.Provides
@@ -16,36 +15,22 @@ object DomainModule {
 
     @Singleton
     @Provides
-    fun provideInsertTest(
-        testRepository: TestRepository
-    ): InsertTest =
-        InsertTestImpl(testRepository)
-
-    @Singleton
-    @Provides
-    fun provideReadTest(
-        testRepository: TestRepository
-    ): ReadTest =
-        ReadTestImpl(testRepository)
-
-    @Singleton
-    @Provides
     fun provideGetUserProfile(
-        authRepository: AuthRepository
+        authRepository: UserRepository
     ): GetUserProfile =
         GetUserProfileImpl(authRepository)
 
     @Singleton
     @Provides
     fun provideIsUserAuthenticated(
-        authRepository: AuthRepository
+        authRepository: UserRepository
     ): IsUserAuthenticated =
         IsUserAuthenticatedImpl(authRepository)
 
     @Singleton
     @Provides
     fun provideInsertUser(
-        authRepository: AuthRepository
+        authRepository: UserRepository
     ): InsertUser =
         InsertUserImpl(authRepository)
 
@@ -62,11 +47,4 @@ object DomainModule {
         packRepository: PackRepository
     ): GetPack =
         GetPackImpl(packRepository)
-
-    @Singleton
-    @Provides
-    fun provideGetUserPackList(
-        packRepository: PackRepository
-    ): GetUserPackList =
-        GetUserPackListImpl(packRepository)
 }

@@ -9,6 +9,4 @@ interface PackRepository {
     suspend fun insertPack(pack: Pack)
 
     suspend fun getPack(id: String): Flow<Result<Pack>>
-
-    suspend fun getUserPackList(userId: String): Flow<Result<List<PackInfo>>>
 }

@@ -8,6 +8,6 @@ data class PackPresentation(
     val id: String = UUID.randomUUID().toString(),
     val title: String,
     val creatorName: String,
-    val creatorPhotoUrl: Uri?,
+    val creatorPhotoUrl: String?,
     val flashcards: List<FlashcardPresentation>
 )

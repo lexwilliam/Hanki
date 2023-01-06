@@ -1,6 +1,6 @@
 package com.lexwilliam.domain.usecase
 
-import com.lexwilliam.domain.AuthRepository
+import com.lexwilliam.domain.UserRepository
 import javax.inject.Inject
 
 interface InsertUser {
@@ -8,7 +8,7 @@ interface InsertUser {
 }
 
 class InsertUserImpl @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: UserRepository
 ): InsertUser {
     override suspend fun invoke() {
         authRepository.insertUser()

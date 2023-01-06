@@ -2,12 +2,14 @@ package com.lexwilliam.data.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.lexwilliam.data.AuthRepositoryImpl
 import com.lexwilliam.data.PackRepositoryImpl
-import com.lexwilliam.data.TestRepositoryImpl
-import com.lexwilliam.domain.AuthRepository
+import com.lexwilliam.data.UserRepositoryImpl
+import com.lexwilliam.data.mapper.PackMapper
+import com.lexwilliam.data.mapper.PackMapperImpl
+import com.lexwilliam.data.mapper.UserMapper
+import com.lexwilliam.data.mapper.UserMapperImpl
 import com.lexwilliam.domain.PackRepository
-import com.lexwilliam.domain.TestRepository
+import com.lexwilliam.domain.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,26 +22,31 @@ object DataModule {
 
     @Singleton
     @Provides
-    fun provideTestRepository(
-        firestore: FirebaseFirestore
-    ): TestRepository =
-        TestRepositoryImpl(firestore)
-
-    @Singleton
-    @Provides
     fun provideAuthRepository(
         auth: FirebaseAuth,
-        firestore: FirebaseFirestore
-    ): AuthRepository =
-        AuthRepositoryImpl(auth, firestore)
+        firestore: FirebaseFirestore,
+        userMapper: UserMapper
+    ): UserRepository =
+        UserRepositoryImpl(auth, firestore, userMapper)
 
     @Singleton
     @Provides
     fun providePackRepository(
         firestore: FirebaseFirestore,
-        authRepository: AuthRepository
+        authRepository: com.lexwilliam.domain.UserRepository
     ): PackRepository =
         PackRepositoryImpl(firestore, authRepository)
 
+    @Singleton
+    @Provides
+    fun providePackMapper(): PackMapper =
+        PackMapperImpl()
+
+    @Singleton
+    @Provides
+    fun provideUserMapper(
+        packMapper: PackMapper
+    ): UserMapper =
+        UserMapperImpl(packMapper)
 
 }

@@ -29,7 +29,7 @@ class PackMapperImpl @Inject constructor(): PackMapper {
         PackInfo(packInfo.id, packInfo.title, packInfo.creatorName, packInfo.creatorPhotoUrl)
 
     override fun toPresentation(pack: Pack): PackPresentation =
-        PackPresentation(pack.id, pack.title, pack.creatorName, pack.creatorPhotoUrl, pack.flashcards.map { toPresentation(it) })
+        PackPresentation(pack.id, pack.title?:"", pack.creatorName?:"", pack.creatorPhotoUrl, pack.flashcards?.map { toPresentation(it) } ?: emptyList())
 
     override fun toPresentation(flashcard: Flashcard): FlashcardPresentation =
         FlashcardPresentation(flashcard.id, flashcard.question, flashcard.answer)

@@ -1,6 +1,6 @@
 package com.lexwilliam.domain.usecase
 
-import com.lexwilliam.domain.AuthRepository
+import com.lexwilliam.domain.UserRepository
 import javax.inject.Inject
 
 interface IsUserAuthenticated {
@@ -8,7 +8,7 @@ interface IsUserAuthenticated {
 }
 
 class IsUserAuthenticatedImpl @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: UserRepository
 ): IsUserAuthenticated {
     override fun invoke(): Boolean =
         authRepository.isUserAuthenticatedInFirebase()

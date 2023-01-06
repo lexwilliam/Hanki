@@ -34,22 +34,15 @@ class HomeFragment : Fragment() {
 
         lifecycleScope.launch {
             viewModel.state.collect { state ->
-                when(val userPackList = state.userPackList) {
-                    is Result.Loading -> Timber.d("Loading")
-                    is Result.Success -> {
-                        Timber.d("Success")
-                        val historyAdapter = HistoryAdapter(userPackList.data)
-                        binding.rvMyPacks.apply {
-                            adapter = historyAdapter
-                            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                        }
-                    }
-                    is Result.Error -> Timber.e(userPackList.message)
-                }
                 when(val user = state.user) {
                     is Result.Loading -> Timber.d("Loading")
                     is Result.Success -> {
                         Timber.d("Success")
+                        val historyAdapter = HistoryAdapter(user.data.packs)
+                        binding.rvMyPacks.apply {
+                            adapter = historyAdapter
+                            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                        }
                         binding.homeGreeting.text = "Hi, ${user.data.name}"
                         binding.profileImage.load(user.data.photoUrl)
                     }

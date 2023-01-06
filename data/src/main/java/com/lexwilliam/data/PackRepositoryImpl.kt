@@ -3,12 +3,10 @@ package com.lexwilliam.data
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.firestore.ktx.toObjects
-import com.lexwilliam.domain.AuthRepository
+import com.lexwilliam.domain.UserRepository
 import com.lexwilliam.domain.PackRepository
 import com.lexwilliam.domain.model.Pack
 import com.lexwilliam.domain.model.PackInfo
-import com.lexwilliam.domain.model.PackInfoList
 import com.lexwilliam.domain.model.Result
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +16,7 @@ import javax.inject.Inject
 
 class PackRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
-    private val authRepository: AuthRepository
+    private val authRepository: UserRepository
 ): PackRepository {
 
     override suspend fun insertPack(pack: Pack) {
@@ -40,30 +38,14 @@ class PackRepositoryImpl @Inject constructor(
                         pack.creatorName,
                         pack.creatorPhotoUrl.toString()
                     )
-                    val docRef = firestore.collection("userPack").document(user.data.uid)
-                    docRef.get().addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            val document = task.result
-                            if (document != null) {
-                                if (!document.exists()) {
-                                    val hashMap = HashMap<String, List<PackInfo>>()
-                                    hashMap["userPack"] = emptyList()
-                                    docRef.set(hashMap)
-                                    Timber.d("Create empty array")
-                                }
-                                docRef
-                                    .update("userPack", FieldValue.arrayUnion(packInfo))
-                                    .addOnCompleteListener {
-                                        Timber.d("Update Successfully")
-                                    }
-                                    .addOnFailureListener {
-                                        Timber.d("Update Unsuccessful")
-                                    }
-                            }
-                        } else {
-                            Timber.d("Task not successful")
+                    val docRef = firestore.collection("user").document(user.data.uid)
+                    docRef.update("packs", FieldValue.arrayUnion(packInfo))
+                        .addOnCompleteListener {
+                            Timber.d("Update Successfully")
                         }
-                    }
+                        .addOnFailureListener {
+                            Timber.d("Update Unsuccessful")
+                        }
                 }
                 is Result.Loading -> {
                     Timber.d("Loading")
@@ -87,33 +69,6 @@ class PackRepositoryImpl @Inject constructor(
                         val data = value.toObject<Pack>()
                         data?.let {
                             trySend(Result.Success(data))
-                        }
-                    }
-                }
-            }
-
-        awaitClose {
-            subscription.remove()
-        }
-    }
-
-    override suspend fun getUserPackList(userId: String): Flow<Result<List<PackInfo>>> = callbackFlow {
-        trySend(Result.Loading)
-
-        val subscription = firestore.collection("userPack").document(userId)
-            .addSnapshotListener { value, error ->
-                if (error != null) {
-                    trySend(Result.Error("Error"))
-                } else {
-                    if (value != null) {
-                        val data = value.toObject(PackInfoList::class.java)
-                        Timber.d(data.toString())
-                        if (data != null) {
-                            val packs = data.userPack
-                            if (packs != null) {
-                                Timber.d("3")
-                                trySend(Result.Success(packs))
-                            }
                         }
                     }
                 }

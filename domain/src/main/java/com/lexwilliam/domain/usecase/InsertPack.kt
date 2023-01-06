@@ -1,6 +1,5 @@
 package com.lexwilliam.domain.usecase
 
-import com.lexwilliam.domain.AuthRepository
 import com.lexwilliam.domain.PackRepository
 import com.lexwilliam.domain.model.Pack
 import javax.inject.Inject
