@@ -1,7 +1,7 @@
 package com.lexwilliam.data.model
 
 data class FlashcardResponse(
-    val id: String,
-    val question: String,
-    val answer: String
+    val id: String? = null,
+    val question: String? = null,
+    val answer: String? = null
 )

@@ -33,9 +33,10 @@ object DataModule {
     @Provides
     fun providePackRepository(
         firestore: FirebaseFirestore,
-        authRepository: com.lexwilliam.domain.UserRepository
+        authRepository: UserRepository,
+        packMapper: PackMapper
     ): PackRepository =
-        PackRepositoryImpl(firestore, authRepository)
+        PackRepositoryImpl(firestore, authRepository, packMapper)
 
     @Singleton
     @Provides

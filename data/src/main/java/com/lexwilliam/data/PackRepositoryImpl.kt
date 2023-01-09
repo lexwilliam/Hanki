@@ -3,6 +3,8 @@ package com.lexwilliam.data
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import com.lexwilliam.data.mapper.PackMapper
+import com.lexwilliam.data.model.PackResponse
 import com.lexwilliam.domain.UserRepository
 import com.lexwilliam.domain.PackRepository
 import com.lexwilliam.domain.model.Pack
@@ -16,18 +18,21 @@ import javax.inject.Inject
 
 class PackRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
-    private val authRepository: UserRepository
+    private val authRepository: UserRepository,
+    private val packMapper: PackMapper
 ): PackRepository {
 
     override suspend fun insertPack(pack: Pack) {
-        firestore.collection("packs").document(pack.id)
-            .set(pack)
-            .addOnSuccessListener {
-                Timber.d("DocumentSnapshot successfully written!")
-            }
-            .addOnFailureListener { e ->
-                Timber.tag("Error adding document").e(e)
-            }
+        pack.id?.let {
+            firestore.collection("packs").document(it)
+                .set(pack)
+                .addOnSuccessListener {
+                    Timber.d("DocumentSnapshot successfully written!")
+                }
+                .addOnFailureListener { e ->
+                    Timber.tag("Error adding document").e(e)
+                }
+        }
 
         authRepository.getUserProfile().collect { user ->
             when (user) {
@@ -66,9 +71,9 @@ class PackRepositoryImpl @Inject constructor(
                     trySend(Result.Error("Error"))
                 } else {
                     value?.let {
-                        val data = value.toObject<Pack>()
-                        data?.let {
-                            trySend(Result.Success(data))
+                        val data = value.toObject(PackResponse::class.java)
+                        data?.let { d ->
+                            trySend(Result.Success(packMapper.toDomain(d)))
                         }
                     }
                 }

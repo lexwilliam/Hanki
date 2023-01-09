@@ -5,9 +5,9 @@ import com.lexwilliam.domain.model.Flashcard
 import java.util.*
 
 data class PackResponse(
-    val id: String,
-    val title: String?,
-    val creatorName: String?,
-    val creatorPhotoUrl: String?,
-    val flashcards: List<FlashcardResponse>?
+    val id: String? = null,
+    val title: String? = null,
+    val creatorName: String? = null,
+    val creatorPhotoUrl: String? = null,
+    val flashcards: List<FlashcardResponse>? = null
 )
