@@ -10,4 +10,5 @@ object ProjectModules {
     const val domain = ":domain"
     const val featureAdd = ":feature-add"
     const val featureExplore = ":feature-explore"
+    const val featurePackDetail = ":feature-packDetail"
 }

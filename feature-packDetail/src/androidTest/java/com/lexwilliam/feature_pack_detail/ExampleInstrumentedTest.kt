@@ -1,4 +1,4 @@
-package com.lexwilliam.feature_edit
+package com.lexwilliam.feature_pack_detail
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

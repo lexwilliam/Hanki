@@ -4,6 +4,7 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -64,6 +65,7 @@ dependencies {
     implementation(project(ProjectModules.featureExplore))
     implementation(project(ProjectModules.featureAdd))
     implementation(project(ProjectModules.featureAuth))
+    implementation(project(ProjectModules.featurePackDetail))
     implementation(project(ProjectModules.domain))
     implementation(project(ProjectModules.data))
     implementation(project(ProjectModules.core))

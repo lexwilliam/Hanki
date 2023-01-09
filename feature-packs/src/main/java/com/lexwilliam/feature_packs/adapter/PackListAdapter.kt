@@ -2,11 +2,17 @@ package com.lexwilliam.feature_packs.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.net.toUri
+import androidx.navigation.NavDeepLinkRequest
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.lexwilliam.core.model.PackInfoPresentation
 import com.lexwilliam.feature_packs.databinding.PackCardBinding
 
-class PackListAdapter(private val packs: List<PackInfoPresentation>):
+class PackListAdapter(
+    private val packs: List<PackInfoPresentation>,
+    private val onItemClicked: (PackInfoPresentation) -> Unit
+    ):
     RecyclerView.Adapter<PackListAdapter.PackListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PackListViewHolder =
@@ -19,7 +25,9 @@ class PackListAdapter(private val packs: List<PackInfoPresentation>):
         )
 
     override fun onBindViewHolder(holder: PackListViewHolder, position: Int) {
-        holder.bind(packs[position])
+        val item = packs[position]
+        holder.bind(item)
+        holder.itemView.setOnClickListener { onItemClicked(item) }
     }
 
     override fun getItemCount(): Int {

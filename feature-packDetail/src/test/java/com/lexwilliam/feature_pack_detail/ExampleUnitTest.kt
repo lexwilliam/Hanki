@@ -1,4 +1,4 @@
-package com.lexwilliam.feature_edit
+package com.lexwilliam.feature_pack_detail
 
 import org.junit.Test
 
