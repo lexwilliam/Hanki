@@ -5,9 +5,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.NavHostFragment
@@ -15,7 +13,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.lexwilliam.hanki.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -47,9 +44,9 @@ class MainActivity : AppCompatActivity() {
         setupBottomNavMenu(navController)
 
         navController.addOnDestinationChangedListener { _, destination, bundle ->
-            if(destination.id == com.lexwilliam.feature_home.R.id.homeFragment
-                || destination.id == com.lexwilliam.feature_explore.R.id.exploreFragment
-                || destination.id == com.lexwilliam.feature_packs.R.id.packsFragment) {
+            if(destination.id == com.lexwilliam.home.R.id.homeFragment
+                || destination.id == com.lexwilliam.explore.R.id.exploreFragment
+                || destination.id == com.lexwilliam.packs.R.id.packsFragment) {
                 binding.bottomNavView.visibility = View.VISIBLE
             } else {
                 binding.bottomNavView.visibility = View.GONE

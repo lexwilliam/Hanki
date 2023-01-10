@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "868266007724",
+    "project_id": "hanki-ad7d1",
+    "storage_bucket": "hanki-ad7d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:868266007724:android:5e25c37bd268bb8c73d309",
+        "android_client_info": {
+          "package_name": "com.lexwilliam.hanki"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "868266007724-c2kq9tbfkmi59ade6f6tf6kcbe2usurm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpYqP4VcXFp3If4cLgkRQ6E_gDx0rPZBo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "868266007724-c2kq9tbfkmi59ade6f6tf6kcbe2usurm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
