@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lexwilliam.feature_add.adapter.FlashcardListAdapter
+import com.lexwilliam.feature_add.adapter.FlashcardEditAdapter
 import com.lexwilliam.feature_add.adapter.HeaderAdapter
 import com.lexwilliam.feature_add.databinding.FragmentAddBinding
 import com.lexwilliam.core.model.FlashcardPresentation
@@ -22,7 +22,7 @@ class AddFragment : Fragment() {
     private lateinit var binding: FragmentAddBinding
     private val flashcards = ArrayList<FlashcardPresentation>()
     private val title = TitlePresentation("")
-    private val flashcardListAdapter by lazy { FlashcardListAdapter() }
+    private val flashcardEditAdapter by lazy { FlashcardEditAdapter() }
     private val headerAdapter by lazy { HeaderAdapter(title) }
     private val viewModel: AddViewModel by viewModels()
     private var count = 1
@@ -61,7 +61,7 @@ class AddFragment : Fragment() {
     }
 
     private fun setAdapter() {
-        val concatAdapter = ConcatAdapter(headerAdapter, flashcardListAdapter)
+        val concatAdapter = ConcatAdapter(headerAdapter, flashcardEditAdapter)
 
         binding.rvFlashcardList.apply {
             adapter = concatAdapter
@@ -69,11 +69,11 @@ class AddFragment : Fragment() {
         }
 
         flashcards.add(FlashcardPresentation())
-        flashcardListAdapter.setData(flashcards)
+        flashcardEditAdapter.setData(flashcards)
 
         binding.fabAddFlashcard.setOnClickListener {
             flashcards.add(FlashcardPresentation())
-            flashcardListAdapter.setData(flashcards)
+            flashcardEditAdapter.setData(flashcards)
             // scroll to added item
             count++
             binding.rvFlashcardList.scrollToPosition(count)

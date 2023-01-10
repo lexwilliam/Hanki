@@ -46,6 +46,7 @@ dependencies {
     implementation(Dependencies.AndroidX.appCompat)
     implementation(Dependencies.AndroidX.material)
     implementation(Dependencies.AndroidX.constraintLayout)
+    implementation(Dependencies.AndroidX.recyclerView)
 
     implementation(Dependencies.Navigation.navigationFragment)
     implementation(Dependencies.Navigation.navigationUi)

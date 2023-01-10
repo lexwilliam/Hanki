@@ -2,18 +2,14 @@ package com.lexwilliam.feature_add.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.lexwilliam.domain.model.Flashcard
-import com.lexwilliam.feature_add.R
 import com.lexwilliam.feature_add.databinding.FlashcardEditCardBinding
 import com.lexwilliam.core.model.FlashcardPresentation
 
 
-class FlashcardListAdapter:
-    RecyclerView.Adapter<FlashcardListAdapter.FlashcardViewHolder>() {
+class FlashcardEditAdapter:
+    RecyclerView.Adapter<FlashcardEditAdapter.FlashcardViewHolder>() {
 
     private val flashcards = ArrayList<FlashcardPresentation>()
 
