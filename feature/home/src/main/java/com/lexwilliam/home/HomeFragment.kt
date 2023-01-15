@@ -5,8 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDeepLinkRequest
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.lexwilliam.domain.model.Result
@@ -38,7 +41,15 @@ class HomeFragment : Fragment() {
                     is Result.Loading -> Timber.d("Loading")
                     is Result.Success -> {
                         Timber.d("Success")
-                        val historyAdapter = HistoryAdapter(user.data.packs)
+                        val historyAdapter = HistoryAdapter(
+                            packs = user.data.packs,
+                            onItemClicked = { packInfo ->
+                                val request = NavDeepLinkRequest.Builder
+                                    .fromUri("android-app://lexwilliam.hanki.app/pack_detail_fragment/${packInfo.id}".toUri())
+                                    .build()
+                                findNavController().navigate(request)
+                            }
+                        )
                         binding.rvMyPacks.apply {
                             adapter = historyAdapter
                             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)

@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lexwilliam.core.model.PackInfoPresentation
 import com.lexwilliam.home.databinding.HistoryCardBinding
 
-class HistoryAdapter(private val packs: List<PackInfoPresentation>):
-    RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
+class HistoryAdapter(
+    private val packs: List<PackInfoPresentation>,
+    private val onItemClicked: (PackInfoPresentation) -> Unit
+    ): RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder =
         HistoryViewHolder(
@@ -19,7 +21,9 @@ class HistoryAdapter(private val packs: List<PackInfoPresentation>):
         )
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
-        holder.bind(packs[position])
+        val item = packs[position]
+        holder.bind(item)
+        holder.itemView.setOnClickListener { onItemClicked(item) }
     }
 
     override fun getItemCount(): Int {

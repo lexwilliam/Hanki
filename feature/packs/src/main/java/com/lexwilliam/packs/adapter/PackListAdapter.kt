@@ -9,8 +9,7 @@ import com.lexwilliam.packs.databinding.PackCardBinding
 class PackListAdapter(
     private val packs: List<PackInfoPresentation>,
     private val onItemClicked: (PackInfoPresentation) -> Unit
-    ):
-    RecyclerView.Adapter<PackListAdapter.PackListViewHolder>() {
+    ): RecyclerView.Adapter<PackListAdapter.PackListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PackListViewHolder =
         PackListViewHolder(
