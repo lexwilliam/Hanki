@@ -12,6 +12,7 @@ import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import com.lexwilliam.core.util.ItemOffsetDecoration
 import com.lexwilliam.domain.model.Result
 import com.lexwilliam.home.adapter.HistoryAdapter
 import com.lexwilliam.home.databinding.FragmentHomeBinding
@@ -53,6 +54,7 @@ class HomeFragment : Fragment() {
                         binding.rvMyPacks.apply {
                             adapter = historyAdapter
                             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                            addItemDecoration(ItemOffsetDecoration(64, true))
                         }
                         binding.homeGreeting.text = "Hi, ${user.data.name}"
                         binding.profileImage.load(user.data.photoUrl)

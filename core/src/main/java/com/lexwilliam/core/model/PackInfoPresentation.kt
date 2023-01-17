@@ -4,7 +4,7 @@ import android.net.Uri
 
 data class PackInfoPresentation(
     val id: String,
-    var title: String,
-    var creatorName: String,
-    var creatorPhotoUrl: String?,
+    val title: String,
+    val creatorName: String,
+    val creatorPhotoUrl: String?,
 )

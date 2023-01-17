@@ -3,6 +3,7 @@ package com.lexwilliam.data
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.ktx.toObjects
 import com.lexwilliam.data.mapper.PackMapper
 import com.lexwilliam.data.model.PackResponse
 import com.lexwilliam.domain.UserRepository
@@ -83,4 +84,29 @@ class PackRepositoryImpl @Inject constructor(
             subscription.remove()
         }
     }
+
+    override suspend fun getPackCollection(): Flow<Result<List<Pack>>> = callbackFlow {
+        trySend(Result.Loading)
+
+        val subscription = firestore.collection("packs")
+            .addSnapshotListener { value, error ->
+                if (error != null) {
+                    error.message?.let {
+                        trySend(Result.Error(it))
+                    }
+                } else {
+                    value?.let {
+                        val data = value.toObjects(PackResponse::class.java)
+                        trySend(Result.Success(data.map { packMapper.toDomain(it) }))
+                    }
+                }
+            }
+
+        awaitClose {
+            subscription.remove()
+        }
+
+    }
+
+
 }

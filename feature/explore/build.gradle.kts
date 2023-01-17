@@ -34,10 +34,13 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 }
 
 dependencies {
+    implementation(project(ProjectModules.domain))
+    implementation(project(ProjectModules.core))
 
     implementation(Dependencies.AndroidX.coreKtx)
     implementation(Dependencies.AndroidX.appCompat)

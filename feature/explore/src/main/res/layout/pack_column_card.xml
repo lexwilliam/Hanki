@@ -4,25 +4,17 @@
 
     <data>
         <variable
-            name="packInfo"
-            type="com.lexwilliam.core.model.PackInfoPresentation" />
+            name="pack"
+            type="com.lexwilliam.core.model.PackPresentation" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <com.google.android.material.card.MaterialCardView
-            style="?attr/materialCardViewElevatedStyle"
-            android:layout_width="200dp"
-            android:layout_height="300dp"
-            android:backgroundTint="?attr/colorPrimaryContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,18 +24,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+
                 <TextView
-                    android:id="@+id/first_txt"
-                    style="@style/TextAppearance.Hanki.TitleMedium"
+                    android:id="@+id/textView"
+                    style="@style/TextAppearance.Hanki.TitleLarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@{pack.title}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    style="@style/TextAppearance.Hanki.LabelLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"
-                    android:text="@{packInfo.title}"
-                    android:textColor="?attr/colorOnPrimaryContainer"
+                    android:text="@{pack.creatorName}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

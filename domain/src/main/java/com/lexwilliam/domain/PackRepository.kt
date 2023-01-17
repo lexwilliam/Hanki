@@ -9,4 +9,6 @@ interface PackRepository {
     suspend fun insertPack(pack: Pack)
 
     suspend fun getPack(id: String): Flow<Result<Pack>>
+
+    suspend fun getPackCollection(): Flow<Result<List<Pack>>>
 }
