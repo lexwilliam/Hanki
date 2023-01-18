@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="user"
+            type="com.lexwilliam.core.model.UserPresentation" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="Hi, Username"
+                android:text="@{`Hi, ` + user.name}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/home_date" />
 

@@ -12,6 +12,7 @@ import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import com.lexwilliam.core.model.UserPresentation
 import com.lexwilliam.core.util.ItemOffsetDecoration
 import com.lexwilliam.domain.model.Result
 import com.lexwilliam.home.adapter.HistoryAdapter
@@ -39,7 +40,6 @@ class HomeFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.state.collect { state ->
                 when(val user = state.user) {
-                    is Result.Loading -> Timber.d("Loading")
                     is Result.Success -> {
                         Timber.d("Success")
                         val historyAdapter = HistoryAdapter(
@@ -56,9 +56,10 @@ class HomeFragment : Fragment() {
                             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                             addItemDecoration(ItemOffsetDecoration(64, true))
                         }
-                        binding.homeGreeting.text = "Hi, ${user.data.name}"
+                        binding.user = user.data
                         binding.profileImage.load(user.data.photoUrl)
                     }
+                    is Result.Loading -> Timber.d("Loading")
                     is Result.Error -> Timber.e(user.message)
                 }
             }
