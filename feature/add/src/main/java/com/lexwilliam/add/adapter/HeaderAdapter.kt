@@ -6,7 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lexwilliam.add.databinding.HeaderAddBinding
 import com.lexwilliam.core.model.TitlePresentation
 
-class HeaderAdapter(private val title: TitlePresentation) : RecyclerView.Adapter<HeaderAdapter.HeaderViewHolder>() {
+class HeaderAdapter(
+    private val title: TitlePresentation,
+    private val onIconClicked: () -> Unit
+): RecyclerView.Adapter<HeaderAdapter.HeaderViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeaderViewHolder =
         HeaderViewHolder(
@@ -28,6 +31,7 @@ class HeaderAdapter(private val title: TitlePresentation) : RecyclerView.Adapter
     inner class HeaderViewHolder(private val binding: HeaderAddBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(title: TitlePresentation) {
             binding.title = title
+            binding.editPackNameTxt.setEndIconOnClickListener { onIconClicked() }
         }
     }
 }

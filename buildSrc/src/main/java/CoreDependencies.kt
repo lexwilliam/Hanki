@@ -19,6 +19,7 @@ object Dependencies {
         const val auth = "com.google.firebase:firebase-auth-ktx"
         const val analytics = "com.google.firebase:firebase-analytics-ktx"
         const val firestore = "com.google.firebase:firebase-firestore-ktx"
+        const val storage = "com.google.firebase:firebase-storage-ktx"
     }
 
     object Testing {

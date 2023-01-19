@@ -1,10 +1,19 @@
 package com.lexwilliam.add
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.OpenableColumns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.customview.widget.Openable
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
@@ -19,11 +28,14 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AddFragment : Fragment() {
 
+    companion object {
+        const val REQUEST_IMAGE_OPEN = 1
+    }
+
     private lateinit var binding: FragmentAddBinding
     private val flashcards = ArrayList<FlashcardPresentation>()
     private val title = TitlePresentation("")
     private val flashcardEditAdapter by lazy { FlashcardEditAdapter() }
-    private val headerAdapter by lazy { HeaderAdapter(title) }
     private val viewModel: AddViewModel by viewModels()
     private var count = 1
 
@@ -61,6 +73,10 @@ class AddFragment : Fragment() {
     }
 
     private fun setAdapter() {
+        val headerAdapter = HeaderAdapter(
+            title = title,
+            onIconClicked = { navToPhotoPicker() }
+        )
         val concatAdapter = ConcatAdapter(headerAdapter, flashcardEditAdapter)
 
         binding.rvFlashcardList.apply {
@@ -78,5 +94,57 @@ class AddFragment : Fragment() {
             count++
             binding.rvFlashcardList.scrollToPosition(count)
         }
+    }
+
+    private fun navToPhotoPicker() {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            type = "image/*"
+            addCategory(Intent.CATEGORY_OPENABLE)
+        }
+
+        imagePickerResult.launch(intent)
+    }
+
+    private var imagePickerResult: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result != null) {
+                val imageUri: Uri? = result.data?.data
+                val sd = getFileName(requireContext(), imageUri!!)
+
+//                // Upload Task with upload to directory 'file'
+//                // and name of the file remains same
+//                val uploadTask = storageRef.child("file/$sd").putFile(imageUri)
+//
+//                // On success, download the file URL and display it
+//                uploadTask.addOnSuccessListener {
+//                    // using glide library to display the image
+//                    storageRef.child("upload/$sd").downloadUrl.addOnSuccessListener {
+//                        Glide.with(this@MainActivity)
+//                            .load(it)
+//                            .into(imageview)
+//
+//                        Log.e("Firebase", "download passed")
+//                    }.addOnFailureListener {
+//                        Log.e("Firebase", "Failed in downloading")
+//                    }
+//                }.addOnFailureListener {
+//                    Log.e("Firebase", "Image Upload fail")
+//                }
+            }
+        }
+
+    @SuppressLint("Range")
+    private fun getFileName(context: Context, uri: Uri): String? {
+        if (uri.scheme == "content") {
+            val cursor = context.contentResolver.query(uri, null, null, null, null)
+            cursor.use {
+                if (cursor != null) {
+                    if(cursor.moveToFirst()) {
+                        return cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                    }
+                }
+            }
+        }
+        return uri.path?.lastIndexOf('/')?.let { uri.path?.substring(it) }
     }
 }
