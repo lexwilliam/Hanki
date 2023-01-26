@@ -19,21 +19,21 @@ interface PackMapper {
 
 class PackMapperImpl @Inject constructor(): PackMapper {
     override fun toResponse(pack: Pack): PackResponse =
-        PackResponse(pack.id, pack.title, pack.creatorName, pack.creatorPhotoUrl, pack.flashcards?.map { toResponse(it) })
+        PackResponse(pack.id, pack.title, pack.pictureUrl, pack.creatorName, pack.creatorPhotoUrl, pack.flashcards?.map { toResponse(it) })
 
     override fun toResponse(flashcard: Flashcard): FlashcardResponse =
         FlashcardResponse(flashcard.id, flashcard.question, flashcard.answer)
 
     override fun toResponse(packInfo: PackInfo): PackInfoResponse =
-        PackInfoResponse(packInfo.id, packInfo.title, packInfo.creatorName, packInfo.creatorPhotoUrl)
+        PackInfoResponse(packInfo.id, packInfo.title, packInfo.pictureUrl, packInfo.creatorName, packInfo.creatorPhotoUrl)
 
     override fun toDomain(pack: PackResponse): Pack =
-        Pack(pack.id, pack.title, pack.creatorName, pack.creatorPhotoUrl, pack.flashcards?.map { toDomain(it) })
+        Pack(pack.id, pack.title, pack.pictureUrl, pack.creatorName, pack.creatorPhotoUrl, pack.flashcards?.map { toDomain(it) })
 
     override fun toDomain(flashcard: FlashcardResponse): Flashcard =
         Flashcard(flashcard.id, flashcard.question, flashcard.answer)
 
     override fun toDomain(packInfo: PackInfoResponse): PackInfo =
-        PackInfo(packInfo.id?:"", packInfo.title?:"", packInfo.creatorName?:"", packInfo.creatorPhotoUrl)
+        PackInfo(packInfo.id, packInfo.title, packInfo.pictureUrl, packInfo.creatorName, packInfo.creatorPhotoUrl)
 
 }

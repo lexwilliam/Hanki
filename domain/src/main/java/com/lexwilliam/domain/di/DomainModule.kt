@@ -2,6 +2,7 @@ package com.lexwilliam.domain.di
 
 import com.lexwilliam.domain.UserRepository
 import com.lexwilliam.domain.PackRepository
+import com.lexwilliam.domain.StorageRepository
 import com.lexwilliam.domain.usecase.*
 import dagger.Module
 import dagger.Provides
@@ -54,4 +55,11 @@ object DomainModule {
         packRepository: PackRepository
     ): GetPackCollection =
         GetPackCollectionImpl(packRepository)
+
+    @Singleton
+    @Provides
+    fun provideUploadFile(
+        storageRepository: StorageRepository
+    ): UploadFile =
+        UploadFileImpl(storageRepository)
 }

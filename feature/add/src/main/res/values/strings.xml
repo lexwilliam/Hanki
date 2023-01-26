@@ -11,4 +11,5 @@
     <string name="add_flashcard_fab">add_flashcard_fab</string>
     <string name="save_the_flashcards">Save the flashcards</string>
     <string name="save">Save</string>
+    <string name="pack_image">Pack Image</string>
 </resources>

@@ -2,13 +2,16 @@ package com.lexwilliam.data.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.lexwilliam.data.PackRepositoryImpl
+import com.lexwilliam.data.StorageRepositoryImpl
 import com.lexwilliam.data.UserRepositoryImpl
 import com.lexwilliam.data.mapper.PackMapper
 import com.lexwilliam.data.mapper.PackMapperImpl
 import com.lexwilliam.data.mapper.UserMapper
 import com.lexwilliam.data.mapper.UserMapperImpl
 import com.lexwilliam.domain.PackRepository
+import com.lexwilliam.domain.StorageRepository
 import com.lexwilliam.domain.UserRepository
 import dagger.Module
 import dagger.Provides
@@ -37,6 +40,13 @@ object DataModule {
         packMapper: PackMapper
     ): PackRepository =
         PackRepositoryImpl(firestore, authRepository, packMapper)
+
+    @Singleton
+    @Provides
+    fun provideStorageRepository(
+        storage: FirebaseStorage
+    ): StorageRepository =
+        StorageRepositoryImpl(storage)
 
     @Singleton
     @Provides

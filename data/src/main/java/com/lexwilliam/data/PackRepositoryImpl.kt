@@ -41,6 +41,7 @@ class PackRepositoryImpl @Inject constructor(
                     val packInfo = PackInfo(
                         pack.id,
                         pack.title,
+                        pack.pictureUrl,
                         pack.creatorName,
                         pack.creatorPhotoUrl.toString()
                     )

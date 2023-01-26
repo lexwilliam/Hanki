@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
@@ -24,17 +25,17 @@ import com.lexwilliam.add.databinding.FragmentAddBinding
 import com.lexwilliam.core.model.FlashcardPresentation
 import com.lexwilliam.core.model.TitlePresentation
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
+import java.util.*
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class AddFragment : Fragment() {
 
-    companion object {
-        const val REQUEST_IMAGE_OPEN = 1
-    }
-
     private lateinit var binding: FragmentAddBinding
     private val flashcards = ArrayList<FlashcardPresentation>()
-    private val title = TitlePresentation("")
+    private val title = TitlePresentation("", Uri.EMPTY)
+    private lateinit var headerAdapter: HeaderAdapter
     private val flashcardEditAdapter by lazy { FlashcardEditAdapter() }
     private val viewModel: AddViewModel by viewModels()
     private var count = 1
@@ -73,7 +74,7 @@ class AddFragment : Fragment() {
     }
 
     private fun setAdapter() {
-        val headerAdapter = HeaderAdapter(
+        headerAdapter = HeaderAdapter(
             title = title,
             onIconClicked = { navToPhotoPicker() }
         )
@@ -108,8 +109,10 @@ class AddFragment : Fragment() {
     private var imagePickerResult: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result != null) {
-                val imageUri: Uri? = result.data?.data
-                val sd = getFileName(requireContext(), imageUri!!)
+                val uri = result.data?.data!!
+                Timber.d(uri.toString())
+                headerAdapter.setImageUri(uri)
+                viewModel.setPackImageUri(uri)
 
 //                // Upload Task with upload to directory 'file'
 //                // and name of the file remains same
@@ -132,19 +135,4 @@ class AddFragment : Fragment() {
 //                }
             }
         }
-
-    @SuppressLint("Range")
-    private fun getFileName(context: Context, uri: Uri): String? {
-        if (uri.scheme == "content") {
-            val cursor = context.contentResolver.query(uri, null, null, null, null)
-            cursor.use {
-                if (cursor != null) {
-                    if(cursor.moveToFirst()) {
-                        return cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
-                    }
-                }
-            }
-        }
-        return uri.path?.lastIndexOf('/')?.let { uri.path?.substring(it) }
-    }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -12,6 +13,20 @@
         android:layout_width="match_parent"
         android:id="@+id/header_add"
         android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="67dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_pack_name_txt"
+            android:src="@{title.imageUri}"
+            tools:srcCompat="@tools:sample/backgrounds/scenic"
+            android:contentDescription="@string/pack_image" />
 
         <TextView
             android:id="@+id/title_txt"
@@ -36,6 +51,8 @@
             app:counterMaxLength="20"
             app:errorEnabled="true"
             android:hint="@string/name"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             app:endIconMode="custom"
             app:endIconDrawable="@drawable/baseline_photo_camera_24"
             app:endIconTint="?attr/colorPrimary"
@@ -47,22 +64,22 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
                 android:text="@={title.title}"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/flashcard_subtitle_txt"
+            style="@style/TextAppearance.Hanki.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            style="@style/TextAppearance.Hanki.TitleMedium"
-            android:textColor="?attr/colorPrimary"
             android:text="@string/flashcards"
+            android:textColor="?attr/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_pack_name_txt" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

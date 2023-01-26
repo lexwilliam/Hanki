@@ -1,10 +1,13 @@
 package com.lexwilliam.add.adapter
 
+import android.net.Uri
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lexwilliam.add.databinding.HeaderAddBinding
 import com.lexwilliam.core.model.TitlePresentation
+import timber.log.Timber
 
 class HeaderAdapter(
     private val title: TitlePresentation,
@@ -31,7 +34,14 @@ class HeaderAdapter(
     inner class HeaderViewHolder(private val binding: HeaderAddBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(title: TitlePresentation) {
             binding.title = title
-            binding.editPackNameTxt.setEndIconOnClickListener { onIconClicked() }
+            binding.editPackNameTxt.apply {
+                setEndIconOnClickListener { onIconClicked() }
+            }
         }
+    }
+
+    fun setImageUri(imageUri: Uri) {
+        title.imageUri = imageUri
+        notifyDataSetChanged()
     }
 }

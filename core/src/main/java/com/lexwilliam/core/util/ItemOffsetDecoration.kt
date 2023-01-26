@@ -85,22 +85,22 @@ class ItemOffsetDecoration(
     }
 
     private fun getStartOffsetWithEdge(spacing: Int, columnIndex: Int, columnCount: Int?): Int {
-        if (columnCount == null) return spacing
+        if (columnCount == null || columnCount == 0) return spacing
         return spacing - spacing * columnIndex / columnCount
     }
 
     private fun getEndOffsetWithEdge(spacing: Int, columnIndex: Int, columnCount: Int?): Int {
-        if (columnCount == null) return 0
+        if (columnCount == null || columnCount == 0) return 0
         return spacing * (columnIndex + 1) / columnCount
     }
 
     private fun getStartOffsetWithoutEdge(spacing: Int, columnIndex: Int, columnCount: Int?): Int {
-        if (columnCount == null) return 0
+        if (columnCount == null || columnCount == 0) return 0
         return spacing * columnIndex / columnCount
     }
 
     private fun getEndOffsetWithoutEdge(spacing: Int, columnIndex: Int, columnCount: Int?): Int {
-        if (columnCount == null) return spacing
+        if (columnCount == null || columnCount == 0) return spacing
         return spacing - spacing * (columnIndex + 1) / columnCount
     }
 

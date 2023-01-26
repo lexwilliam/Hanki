@@ -20,21 +20,21 @@ interface PackMapper {
 class PackMapperImpl @Inject constructor(): PackMapper {
 
     override fun toDomain(pack: PackPresentation): Pack =
-        Pack(pack.id, pack.title, pack.creatorName, pack.creatorPhotoUrl, pack.flashcards.map { toDomain(it) })
+        Pack(pack.id, pack.title, pack.pictureUrl, pack.creatorName, pack.creatorPhotoUrl, pack.flashcards.map { toDomain(it) })
 
     override fun toDomain(flashcard: FlashcardPresentation): Flashcard =
         Flashcard(flashcard.id, flashcard.question, flashcard.answer)
 
     override fun toDomain(packInfo: PackInfoPresentation): PackInfo =
-        PackInfo(packInfo.id, packInfo.title, packInfo.creatorName, packInfo.creatorPhotoUrl)
+        PackInfo(packInfo.id, packInfo.title, packInfo.pictureUrl, packInfo.creatorName, packInfo.creatorPhotoUrl)
 
     override fun toPresentation(pack: Pack): PackPresentation =
-        PackPresentation(pack.id?:"", pack.title?:"", pack.creatorName?:"", pack.creatorPhotoUrl, pack.flashcards?.map { toPresentation(it) } ?: emptyList())
+        PackPresentation(pack.id?:"", pack.title?:"", pack.pictureUrl, pack.creatorName?:"", pack.creatorPhotoUrl, pack.flashcards?.map { toPresentation(it) } ?: emptyList())
 
     override fun toPresentation(flashcard: Flashcard): FlashcardPresentation =
         FlashcardPresentation(flashcard.id?:"", flashcard.question?:"", flashcard.answer?:"")
 
     override fun toPresentation(packInfo: PackInfo): PackInfoPresentation =
-        PackInfoPresentation(packInfo.id?:"", packInfo.title?:"", packInfo.creatorName?:"", packInfo.creatorPhotoUrl)
+        PackInfoPresentation(packInfo.id?:"", packInfo.title?:"", packInfo.pictureUrl?:"", packInfo.creatorName?:"", packInfo.creatorPhotoUrl)
 
 }

@@ -53,6 +53,7 @@ dependencies {
     implementation(Dependencies.Navigation.navigationUi)
 
     implementation(Dependencies.timber)
+    implementation(Dependencies.coil)
 
     implementation(Dependencies.Hilt.hilt)
     kapt(Dependencies.Hilt.hiltCompiler)

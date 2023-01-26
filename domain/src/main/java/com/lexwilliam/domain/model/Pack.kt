@@ -6,6 +6,7 @@ import java.util.*
 data class Pack(
     val id: String?,
     val title: String?,
+    val pictureUrl: String?,
     val creatorName: String?,
     val creatorPhotoUrl: String?,
     val flashcards: List<Flashcard>?
