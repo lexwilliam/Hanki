@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/flashcard_nav_graph"
+    app:startDestination="@id/flashcardFragment">
+
+    <fragment
+        android:id="@+id/flashcardFragment"
+        android:name="com.example.flashcard.FlashcardFragment"
+        android:label="fragment_flashcard"
+        tools:layout="@layout/fragment_flashcard" >
+        <argument
+            android:name="packId"
+            app:argType="string"
+            android:defaultValue="null"/>
+        <deepLink
+            app:uri="android-app://lexwilliam.hanki.app/flashcard_fragment/{packId}" />
+    </fragment>
+
+</navigation>

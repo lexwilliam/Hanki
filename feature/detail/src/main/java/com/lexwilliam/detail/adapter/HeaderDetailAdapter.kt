@@ -7,7 +7,8 @@ import com.lexwilliam.core.model.PackPresentation
 import com.lexwilliam.detail.databinding.HeaderDetailBinding
 
 class HeaderDetailAdapter(
-    private val pack: PackPresentation
+    private val pack: PackPresentation,
+    private val onFlashcardClick: (PackPresentation) -> Unit
 ): RecyclerView.Adapter<HeaderDetailAdapter.HeaderViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeaderViewHolder =
@@ -30,6 +31,7 @@ class HeaderDetailAdapter(
     inner class HeaderViewHolder(private val binding: HeaderDetailBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(pack: PackPresentation) {
             binding.pack = pack
+            binding.flashcardBtn.setOnClickListener { onFlashcardClick(pack) }
         }
     }
 }
