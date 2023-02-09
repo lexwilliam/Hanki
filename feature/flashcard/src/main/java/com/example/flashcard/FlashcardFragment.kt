@@ -28,7 +28,7 @@ class FlashcardFragment : Fragment() {
     ): View {
         binding = FragmentFlashcardBinding.inflate(inflater, container, false)
 
-        var scale = requireContext().resources.displayMetrics.density
+        val scale = requireContext().resources.displayMetrics.density
         binding.question.cameraDistance = 8000 * scale
         binding.answer.cameraDistance = 8000 * scale
         frontAnim = AnimatorInflater.loadAnimator(context, R.animator.front_animator) as AnimatorSet
@@ -46,12 +46,9 @@ class FlashcardFragment : Fragment() {
                 backAnim.setTarget(binding.question)
                 backAnim.start()
                 frontAnim.start()
-                isFront =true
+                isFront = true
             }
-
         }
-
-
 
         return binding.root
     }
