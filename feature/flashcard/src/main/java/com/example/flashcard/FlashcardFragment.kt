@@ -18,6 +18,9 @@ import timber.log.Timber
 class FlashcardFragment : Fragment() {
 
     private lateinit var binding: FragmentFlashcardBinding
+    private lateinit var frontAnim: AnimatorSet
+    private lateinit var backAnim: AnimatorSet
+    private var isFront = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,37 +28,31 @@ class FlashcardFragment : Fragment() {
     ): View {
         binding = FragmentFlashcardBinding.inflate(inflater, container, false)
 
-        flipCard(requireContext(), binding.viewFront, binding.viewBack)
+        var scale = requireContext().resources.displayMetrics.density
+        binding.question.cameraDistance = 8000 * scale
+        binding.answer.cameraDistance = 8000 * scale
+        frontAnim = AnimatorInflater.loadAnimator(context, R.animator.front_animator) as AnimatorSet
+        backAnim = AnimatorInflater.loadAnimator(context, R.animator.back_animator) as AnimatorSet
+
+        binding.flashcardContainer.setOnClickListener {
+            if (isFront) {
+                frontAnim.setTarget(binding.question);
+                backAnim.setTarget(binding.answer);
+                frontAnim.start()
+                backAnim.start()
+                isFront = false
+            } else {
+                frontAnim.setTarget(binding.answer)
+                backAnim.setTarget(binding.question)
+                backAnim.start()
+                frontAnim.start()
+                isFront =true
+            }
+
+        }
+
+
 
         return binding.root
-    }
-
-    fun flipCard(context: Context, visibleView: View, inVisibleView: View) {
-        try {
-            visibleView.visibility = View.VISIBLE
-            val scale = context.resources.displayMetrics.density
-            val cameraDist = 8000 * scale
-            visibleView.cameraDistance = cameraDist
-            inVisibleView.cameraDistance = cameraDist
-            val flipOutAnimatorSet =
-                AnimatorInflater.loadAnimator(
-                    context,
-                    R.animator.flip_out
-                ) as AnimatorSet
-            flipOutAnimatorSet.setTarget(inVisibleView)
-            val flipInAnimatorSet =
-                AnimatorInflater.loadAnimator(
-                    context,
-                    R.animator.flip_in
-                ) as AnimatorSet
-            flipInAnimatorSet.setTarget(visibleView)
-            flipOutAnimatorSet.start()
-            flipInAnimatorSet.start()
-            flipInAnimatorSet.doOnEnd {
-                inVisibleView.visibility = View.GONE
-            }
-        } catch (e: Exception) {
-            Timber.e(e)
-        }
     }
 }
