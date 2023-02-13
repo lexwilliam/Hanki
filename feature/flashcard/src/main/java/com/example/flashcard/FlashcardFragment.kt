@@ -9,15 +9,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.animation.doOnEnd
+import androidx.fragment.app.viewModels
+import com.lexwilliam.domain.model.Result
+import androidx.lifecycle.lifecycleScope
 import com.lexwilliam.flashcard.R
 import com.lexwilliam.flashcard.databinding.FragmentFlashcardBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
 class FlashcardFragment : Fragment() {
 
     private lateinit var binding: FragmentFlashcardBinding
+    private val viewModel: FlashcardViewModel by viewModels()
     private lateinit var frontAnim: AnimatorSet
     private lateinit var backAnim: AnimatorSet
     private var isFront = true
@@ -27,6 +32,38 @@ class FlashcardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentFlashcardBinding.inflate(inflater, container, false)
+
+        val argument = arguments?.getString("packId")
+
+        argument?.let {
+            viewModel.getPack(it)
+        }
+
+        lifecycleScope.launch {
+            viewModel.state.collect { state ->
+                when (val pack = state.pack) {
+                    is Result.Success -> {
+                        val flashcardList = pack.data.flashcards
+                        var index = 0
+                        binding.questionText.text = flashcardList[index].question
+                        binding.answerText.text = flashcardList[index].answer
+                        binding.knowBtn.setOnClickListener {
+                            if (flashcardList.size > index) {
+                                index++
+                                binding.questionText.text = flashcardList[index].question
+                                binding.answerText.text = flashcardList[index].answer
+                            }
+                        }
+                    }
+                    is Result.Loading -> {
+                        Timber.d("Loading")
+                    }
+                    is Result.Error -> {
+                        Timber.d("Error")
+                    }
+                }
+            }
+        }
 
         val scale = requireContext().resources.displayMetrics.density
         binding.question.cameraDistance = 8000 * scale
@@ -51,5 +88,9 @@ class FlashcardFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    fun nextCard() {
+
     }
 }
