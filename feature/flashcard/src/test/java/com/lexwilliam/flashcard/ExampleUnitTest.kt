@@ -1,4 +1,4 @@
-package com.example.flashcard
+package com.lexwilliam.flashcard
 
 import org.junit.Test
 

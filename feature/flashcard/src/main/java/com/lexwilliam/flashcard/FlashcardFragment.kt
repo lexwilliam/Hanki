@@ -1,4 +1,4 @@
-package com.example.flashcard
+package com.lexwilliam.flashcard
 
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
@@ -35,6 +35,8 @@ class FlashcardFragment : Fragment() {
 
         val argument = arguments?.getString("packId")
 
+        binding.flashcard = FlashcardModel("", "")
+
         argument?.let {
             viewModel.getPack(it)
         }
@@ -45,11 +47,21 @@ class FlashcardFragment : Fragment() {
                     is Result.Success -> {
                         val flashcardList = pack.data.flashcards
                         var index = 0
+                        binding.flashcard =
+                                FlashcardModel(
+                                    count = (index + 1).toString(),
+                                    total = flashcardList.size.toString()
+                                )
                         binding.questionText.text = flashcardList[index].question
                         binding.answerText.text = flashcardList[index].answer
                         binding.knowBtn.setOnClickListener {
-                            if (flashcardList.size > index) {
+                            if (flashcardList.size - 1 > index) {
                                 index++
+                                binding.flashcard =
+                                    FlashcardModel(
+                                        count = (index + 1).toString(),
+                                        total = flashcardList.size.toString()
+                                    )
                                 binding.questionText.text = flashcardList[index].question
                                 binding.answerText.text = flashcardList[index].answer
                             }
@@ -88,9 +100,5 @@ class FlashcardFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    fun nextCard() {
-
     }
 }

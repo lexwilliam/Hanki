@@ -5,7 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="flashcard"
+            type="com.lexwilliam.flashcard.FlashcardModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -20,7 +22,7 @@
             <com.google.android.material.appbar.MaterialToolbar
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:title="Test"
+                app:title="@{flashcard.count + ` / ` + flashcard.total}"
                 app:titleCentered="true"
                 app:navigationIcon="@drawable/ic_arrow_back" />
 
