@@ -4,7 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lexwilliam.core.model.FlashcardPresentation
+import com.lexwilliam.core.model.PackPresentation
 import com.lexwilliam.detail.databinding.FlashcardCardBinding
+import timber.log.Timber
 
 class FlashcardListAdapter(
     private val flashcards: List<FlashcardPresentation>
@@ -20,6 +22,7 @@ class FlashcardListAdapter(
         )
 
     override fun onBindViewHolder(holder: FlashcardViewHolder, position: Int) {
+        Timber.d(flashcards.toString())
         holder.bind(flashcards[position])
     }
 

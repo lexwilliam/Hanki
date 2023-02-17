@@ -11,14 +11,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.card.MaterialCardView
+            style="?attr/materialCardViewElevatedStyle"
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            style="?attr/materialCardViewElevatedStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -29,9 +29,9 @@
 
                 <TextView
                     android:id="@+id/textView2"
+                    style="@style/TextAppearance.Hanki.BodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/TextAppearance.Hanki.BodyMedium"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="@{flashcard.question}"

@@ -12,6 +12,7 @@ import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lexwilliam.core.util.ItemOffsetDecoration
 import com.lexwilliam.detail.databinding.FragmentDetailBinding
 import kotlinx.coroutines.launch
 import com.lexwilliam.domain.model.Result
@@ -58,6 +59,7 @@ class DetailFragment : Fragment() {
                         binding.recyclerView.apply {
                             adapter = concatAdapter
                             layoutManager = LinearLayoutManager(requireContext())
+                            addItemDecoration(ItemOffsetDecoration(32, false))
                         }
                     }
                     is Result.Loading -> {
