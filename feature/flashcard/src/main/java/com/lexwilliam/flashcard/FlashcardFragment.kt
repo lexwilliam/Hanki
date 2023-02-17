@@ -2,18 +2,18 @@ package com.lexwilliam.flashcard
 
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
-import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.animation.doOnEnd
+import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.lexwilliam.domain.model.Result
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDeepLinkRequest
+import androidx.navigation.fragment.findNavController
 import com.lexwilliam.core.model.FlashcardPresentation
-import com.lexwilliam.flashcard.R
+import com.lexwilliam.domain.model.Result
 import com.lexwilliam.flashcard.databinding.FragmentFlashcardBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -64,6 +64,11 @@ class FlashcardFragment : Fragment() {
                                     )
                                 binding.questionText.text = flashcardQueue.peek()?.question ?: ""
                                 binding.answerText.text = flashcardQueue.peek()?.answer ?: ""
+                            } else {
+                                val request = NavDeepLinkRequest.Builder
+                                    .fromUri("android-app://lexwilliam.hanki.app/result_fragment/${"lol"}".toUri())
+                                    .build()
+                                findNavController().navigate(request)
                             }
                         }
                         binding.learningBtn.setOnClickListener {
@@ -90,7 +95,7 @@ class FlashcardFragment : Fragment() {
         frontAnim = AnimatorInflater.loadAnimator(context, R.animator.front_animator) as AnimatorSet
         backAnim = AnimatorInflater.loadAnimator(context, R.animator.back_animator) as AnimatorSet
 
-        binding.flashcardContainer.setOnClickListener {
+        fun flipFlashcard() {
             if (isFront) {
                 frontAnim.setTarget(binding.question);
                 backAnim.setTarget(binding.answer);
@@ -106,20 +111,13 @@ class FlashcardFragment : Fragment() {
             }
         }
 
+
+        binding.flashcardContainer.setOnClickListener {
+            flipFlashcard()
+        }
+
         binding.flipBtn.setOnClickListener {
-            if (isFront) {
-                frontAnim.setTarget(binding.question);
-                backAnim.setTarget(binding.answer);
-                frontAnim.start()
-                backAnim.start()
-                isFront = false
-            } else {
-                frontAnim.setTarget(binding.answer)
-                backAnim.setTarget(binding.question)
-                backAnim.start()
-                frontAnim.start()
-                isFront = true
-            }
+            flipFlashcard()
         }
 
         return binding.root

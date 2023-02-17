@@ -13,4 +13,5 @@ object ProjectModules {
     const val featurePackDetail = ":feature:detail"
     const val featureEdit = ":feature:edit"
     const val featureFlashcard = ":feature:flashcard"
+    const val featureResult = ":feature:result"
 }

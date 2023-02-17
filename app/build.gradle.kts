@@ -68,6 +68,7 @@ dependencies {
     implementation(project(ProjectModules.featurePackDetail))
     implementation(project(ProjectModules.featureEdit))
     implementation(project(ProjectModules.featureFlashcard))
+    implementation(project(ProjectModules.featureResult))
     implementation(project(ProjectModules.domain))
     implementation(project(ProjectModules.data))
     implementation(project(ProjectModules.core))

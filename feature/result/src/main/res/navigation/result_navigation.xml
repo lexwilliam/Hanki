@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/result_nav_graph"
+    app:startDestination="@id/resultFragment">
+
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.lexwilliam.result.ResultFragment"
+        android:label="result_fragment"
+        tools:layout="@layout/fragment_result" >
+        <argument
+            android:name="result"
+            app:argType="string"
+            android:defaultValue="null"/>
+        <deepLink
+            app:uri="android-app://lexwilliam.hanki.app/result_fragment/{result}" />
+    </fragment>
+
+</navigation>

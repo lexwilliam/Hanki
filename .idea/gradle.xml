@@ -25,6 +25,7 @@
             <option value="$PROJECT_DIR$/feature/flashcard" />
             <option value="$PROJECT_DIR$/feature/home" />
             <option value="$PROJECT_DIR$/feature/packs" />
+            <option value="$PROJECT_DIR$/feature/result" />
           </set>
         </option>
       </GradleProjectSettings>
