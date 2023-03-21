@@ -1,9 +1,6 @@
 package com.lexwilliam.core.di
 
-import com.lexwilliam.core.mapper.PackMapper
-import com.lexwilliam.core.mapper.PackMapperImpl
-import com.lexwilliam.core.mapper.UserMapper
-import com.lexwilliam.core.mapper.UserMapperImpl
+import com.lexwilliam.core.mapper.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,4 +22,9 @@ object FeatureModule {
         packMapper: PackMapper
     ): UserMapper =
         UserMapperImpl(packMapper)
+
+    @Singleton
+    @Provides
+    fun provideTestResultMapper(): TestResultMapper =
+        TestResultMapperImpl()
 }

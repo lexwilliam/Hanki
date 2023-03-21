@@ -2,8 +2,6 @@ package com.lexwilliam.data
 
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.firestore.ktx.toObjects
 import com.lexwilliam.data.mapper.PackMapper
 import com.lexwilliam.data.model.PackResponse
 import com.lexwilliam.domain.UserRepository
@@ -19,7 +17,7 @@ import javax.inject.Inject
 
 class PackRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
-    private val authRepository: UserRepository,
+    private val userRepository: UserRepository,
     private val packMapper: PackMapper
 ): PackRepository {
 
@@ -35,7 +33,7 @@ class PackRepositoryImpl @Inject constructor(
                 }
         }
 
-        authRepository.getUserProfile().collect { user ->
+        userRepository.getUserProfile().collect { user ->
             when (user) {
                 is Result.Success -> {
                     val packInfo = PackInfo(
@@ -102,12 +100,8 @@ class PackRepositoryImpl @Inject constructor(
                     }
                 }
             }
-
         awaitClose {
             subscription.remove()
         }
-
     }
-
-
 }

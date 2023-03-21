@@ -11,11 +11,11 @@
         android:label="result_fragment"
         tools:layout="@layout/fragment_result" >
         <argument
-            android:name="result"
+            android:name="packId"
             app:argType="string"
             android:defaultValue="null"/>
         <deepLink
-            app:uri="android-app://lexwilliam.hanki.app/result_fragment/{result}" />
+            app:uri="android-app://lexwilliam.hanki.app/result_fragment/{packId}" />
     </fragment>
 
 </navigation>

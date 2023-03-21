@@ -5,13 +5,12 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.lexwilliam.data.PackRepositoryImpl
 import com.lexwilliam.data.StorageRepositoryImpl
+import com.lexwilliam.data.TestResultRepositoryImpl
 import com.lexwilliam.data.UserRepositoryImpl
-import com.lexwilliam.data.mapper.PackMapper
-import com.lexwilliam.data.mapper.PackMapperImpl
-import com.lexwilliam.data.mapper.UserMapper
-import com.lexwilliam.data.mapper.UserMapperImpl
+import com.lexwilliam.data.mapper.*
 import com.lexwilliam.domain.PackRepository
 import com.lexwilliam.domain.StorageRepository
+import com.lexwilliam.domain.TestResultRepository
 import com.lexwilliam.domain.UserRepository
 import dagger.Module
 import dagger.Provides
@@ -50,6 +49,15 @@ object DataModule {
 
     @Singleton
     @Provides
+    fun provideTestResultRepository(
+        firestore: FirebaseFirestore,
+        userRepository: UserRepository,
+        testResultMapper: TestResultMapper
+    ): TestResultRepository =
+        TestResultRepositoryImpl(firestore, userRepository, testResultMapper)
+
+    @Singleton
+    @Provides
     fun providePackMapper(): PackMapper =
         PackMapperImpl()
 
@@ -60,4 +68,8 @@ object DataModule {
     ): UserMapper =
         UserMapperImpl(packMapper)
 
+    @Singleton
+    @Provides
+    fun provideTestResultMapper(): TestResultMapper =
+        TestResultMapperImpl()
 }

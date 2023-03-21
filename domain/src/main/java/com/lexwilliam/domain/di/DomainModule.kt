@@ -3,6 +3,7 @@ package com.lexwilliam.domain.di
 import com.lexwilliam.domain.UserRepository
 import com.lexwilliam.domain.PackRepository
 import com.lexwilliam.domain.StorageRepository
+import com.lexwilliam.domain.TestResultRepository
 import com.lexwilliam.domain.usecase.*
 import dagger.Module
 import dagger.Provides
@@ -62,4 +63,18 @@ object DomainModule {
         storageRepository: StorageRepository
     ): UploadFile =
         UploadFileImpl(storageRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetTestResult(
+        testResultRepository: TestResultRepository
+    ): GetTestResult =
+        GetTestResultImpl(testResultRepository)
+
+    @Singleton
+    @Provides
+    fun provideInsertTestResult(
+        testResultRepository: TestResultRepository
+    ): InsertTestResult =
+        InsertTestResultImpl(testResultRepository)
 }
